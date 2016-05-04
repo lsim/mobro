@@ -1,14 +1,23 @@
-<p>
-  Howdy! Here's a list of awesome computer scientists.
-  Do you know any others? Add to the list yourself.
-</p>
-
-<form (submit)="addName()">
-  <input [(ngModel)]="newName" placeholder="Awesome Computer Scientist">
-  <button type="submit">Add</button>
+<form (submit)="lookupEntity()"
+      class="query-form">
+  <autocomplete [(value)]="searchString"
+                (valueChanged)="searchStringChanged($event)"
+                [options]="allTypes"
+                placeholder="Search (regex)"
+                class="autocomplete"></autocomplete>
+  <button type="submit">Search</button>
 </form>
+<br>
+<div *ngFor="let entity of entities">
+  <p>subtypes of {{entity.name}}</p>
+  {{entity.subtypes}}
+  <p>info of {{entity.name}}</p>
+  {{entity.infoJson}}
+</div>
+<!--<ul>-->
+  <!--<li *ngFor="let name of nameListService.get()">{{name}}</li>-->
+<!--</ul>-->
 
-
-<ul>
-  <li *ngFor="let name of nameListService.get()">{{name}}</li>
-</ul>
+<!--<ul>-->
+  <!--<li *ngFor="let type of types">{{type}}</li>-->
+<!--</ul>-->

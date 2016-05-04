@@ -80,6 +80,8 @@ export class SeedConfig {
     paths: {
       [this.BOOTSTRAP_MODULE]: `${this.APP_BASE}${this.BOOTSTRAP_MODULE}`,
       'angular2/*': `${this.APP_BASE}angular2/*`,
+      'rxjs/observable/*' : `${this.APP_BASE}rxjs/observable/*.js`,
+      'rxjs/operator/*' : `${this.APP_BASE}rxjs/operator/*.js`,
       'rxjs/*': `${this.APP_BASE}rxjs/*`,
       'app/*': `/app/*`,
       '*': `${this.APP_BASE}node_modules/*`
@@ -115,10 +117,19 @@ export class SeedConfig {
     'bb >= 10'
   ];
 
+  private browserSyncProxyConfig = {
+    target: "http://cis-latest:8081",
+    changeOrigin: true,
+    logLevel: 'debug'
+  };
+
   // ----------------
   // Browser Sync configuration.
   BROWSER_SYNC_CONFIG: any = {
-    middleware: [require('connect-history-api-fallback')({index: `${this.APP_BASE}index.html`})],
+    middleware: [
+      require('connect-history-api-fallback')({index: `${this.APP_BASE}index.html`}),
+      require('http-proxy-middleware')('/fapi.model.meta', this.browserSyncProxyConfig)
+    ],
     port: this.PORT,
     startPath: this.APP_BASE,
     server: {

@@ -1,25 +1,52 @@
 import {Component} from 'angular2/core';
+import {Observable} from 'rxjs/Observable';
 import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
 
-import {NameListService} from '../../shared/index';
+import {ModelMetaService,AutocompleteComponent} from '../../shared/index';
 
 @Component({
-  selector: 'sd-home',
+  selector: 'mb-home',
   templateUrl: 'app/+home/components/home.component.html',
   styleUrls: ['app/+home/components/home.component.css'],
-  directives: [FORM_DIRECTIVES, CORE_DIRECTIVES]
+  directives: [FORM_DIRECTIVES, CORE_DIRECTIVES, AutocompleteComponent]
 })
 export class HomeComponent {
-  newName: string;
-  constructor(public nameListService: NameListService) {}
 
-  /*
-   * @param newname  any text as input.
-   * @returns return false to prevent default form submit behavior to refresh the page.
-   */
-  addName(): boolean {
-    this.nameListService.add(this.newName);
-    this.newName = '';
-    return false;
+  allTypes: string[];
+
+  searchString = "";
+
+  entities: FapiEntity[] = [];
+
+  constructor(public modelMetaService: ModelMetaService) {
+    modelMetaService.getTypes().then(types => this.allTypes = types);
+  }
+
+  searchStringChanged(event: any) {
+    //TODO: double binding should leave this method redundant!
+    this.searchString = event;
+  }
+
+  lookupEntity() {
+    let query = this.searchString;
+    if(this.entities.find((e) => e.name === query)) {
+      return;
+    }
+    this.searchString = "";
+    Observable.forkJoin(
+      this.modelMetaService.getSubtypesOfType(query),
+      this.modelMetaService.getEntityInfo(query)
+    ).subscribe(([subtypes, entityInfo]) => {
+      this.entities.push(new FapiEntity(query, subtypes, entityInfo));
+    });
+  }
+}
+
+class FapiEntity {
+
+  infoJson: string;
+
+  constructor(public name: string, public subtypes: string[], public entityInfo: any) {
+    this.infoJson = JSON.stringify(entityInfo);
   }
 }

@@ -1,0 +1,13 @@
+<div class="click-overlay"
+     (click)="dismissSuggestions()"
+     *ngIf="optionsShown"></div>
+<input type="search" class="query-input"
+       [(ngModel)]=value
+       (ngModelChange)="filter()"
+       placeholder="{{placeholder}}">
+<ul class="suggestions" *ngIf="optionsShown">
+  <li *ngFor="let item of filteredList">
+    <a (click)="select(item)">{{item}}</a>
+  </li>
+</ul>
+
