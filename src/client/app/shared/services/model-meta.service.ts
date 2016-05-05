@@ -1,6 +1,6 @@
 import {Injectable} from 'angular2/core';
 import {Http} from 'angular2/http';
-import 'rxjs/Rx'
+import 'rxjs/Rx';
 
 @Injectable()
 export class ModelMetaService {
@@ -21,20 +21,19 @@ export class ModelMetaService {
   }
 
   getSubtypesOfType(type: string) : Promise<string[]> {
-    return this.sendFapiRequest("subtypes", type);
+    return this.sendFapiRequest('subtypes', type);
+  }
+
+  getEntityInfo(type: string) {
+    return this.sendFapiRequest('browser', type);
   }
 
   private sendFapiRequest(endpoint: string, ...args: string[]) {
-    let argPart = args.length > 0 ? "/" + args.join("/") : "";
+    let argPart = args.length > 0 ? '/' + args.join('/') : '';
     let url = `/fapi.model.meta/${endpoint}${argPart}`;
     return this.http.get(url)
       .map((x: any) => x.json())
       .toPromise()
-      .catch(error => console.debug(`Request for ${url} failed with error ${JSON.stringify(error)}`))
+      .catch(error => console.debug(`Request for ${url} failed with error ${JSON.stringify(error)}`));
   }
-
-  getEntityInfo(type: string) {
-    return this.sendFapiRequest("browser", type);
-  }
-
 }

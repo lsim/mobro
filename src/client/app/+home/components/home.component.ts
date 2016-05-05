@@ -1,4 +1,4 @@
-import {Component,TemplateRef} from 'angular2/core';
+import {Component} from 'angular2/core';
 import {Observable} from 'rxjs/Observable';
 import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
 
@@ -13,7 +13,7 @@ import {ModelMetaService,AutocompleteComponent,MapiEntityComponent,MapiEntity} f
 export class HomeComponent {
 
   allTypes: string[];
-  searchString = "";
+  searchString = '';
   entities: MapiEntity[] = [];
 
   constructor(public modelMetaService: ModelMetaService) {
@@ -28,7 +28,7 @@ export class HomeComponent {
     if(!query || this.entities.find((e) => e.name === query)) {
       return;
     }
-    this.searchString = "";
+    this.searchString = '';
     Observable.forkJoin(
       this.modelMetaService.getSubtypesOfType(query),
       this.modelMetaService.getEntityInfo(query)

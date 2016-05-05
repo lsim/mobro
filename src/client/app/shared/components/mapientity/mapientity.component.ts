@@ -1,6 +1,6 @@
-import {Component,Input,Output,EventEmitter} from 'angular2/core'
-import {CORE_DIRECTIVES,NgSwitchWhen,NgSwitch} from 'angular2/common'
-import * as _ from 'lodash'
+import {Component,Input,Output,EventEmitter} from 'angular2/core';
+import {CORE_DIRECTIVES,NgSwitchWhen,NgSwitch} from 'angular2/common';
+import * as _ from 'lodash';
 
 
 @Component({
@@ -16,7 +16,7 @@ export class MapiEntityComponent {
   @Output() remove: EventEmitter<any> = new EventEmitter();
 
   onRemoveClick() {
-    this.remove.emit("");
+    this.remove.emit('');
   }
 
   navigateTo(name: string) {
@@ -34,7 +34,7 @@ export class MapiEntity {
   constructor(public name: string, public inheritors: string[], public entityInfo: any) {
     this.entityFields = this.toFieldViewModels(_.map(_.keys(entityInfo.fields).sort(), (f: string) => entityInfo.fields[f]));
     this.superType = entityInfo._extends;
-    if(this.superType === "AbstractEntity") {
+    if(this.superType === 'AbstractEntity') {
       this.superType = undefined;
     }
   }
@@ -44,7 +44,7 @@ export class MapiEntity {
     object: { display: (p: any) => p.referenceType },
     enum: { display: (p: any) => `enum (${p.values.join(',')})` },
     reference: { display: (p: any) => p.referenceType, navigateTo: (p: any) => p.referenceType },
-    collection: { display: (p: any) => p.parameterType + "+", navigateTo: (p: any) => p.parameterType }
+    collection: { display: (p: any) => p.parameterType + '+', navigateTo: (p: any) => p.parameterType }
   };
 
   toFieldViewModels(rawFields: Array<any>) {
@@ -52,11 +52,11 @@ export class MapiEntity {
       let mapper = this.propertyMapper[rawField.type];
       return {
         name: rawField.propertyName,
-        isNullable: rawField.attributes.includes("Nullable"),
-        immutable: rawField.attributes.includes("Immutable"),
-        notNull: rawField.attributes.includes("NotNull"),
+        isNullable: rawField.attributes.includes('Nullable'),
+        immutable: rawField.attributes.includes('Immutable'),
+        notNull: rawField.attributes.includes('NotNull'),
         displayedType: mapper.display(rawField),
-        navigationTarget: mapper.navigateTo != null ? mapper.navigateTo(rawField) : undefined
+        navigationTarget: mapper.navigateTo !== undefined ? mapper.navigateTo(rawField) : undefined
       };
     });
   }

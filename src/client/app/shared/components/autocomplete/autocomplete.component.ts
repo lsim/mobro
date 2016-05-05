@@ -1,5 +1,5 @@
 import {Component,Input,Output,EventEmitter} from 'angular2/core';
-import {CORE_DIRECTIVES,FORM_DIRECTIVES} from "angular2/common";
+import {CORE_DIRECTIVES,FORM_DIRECTIVES} from 'angular2/common';
 
 @Component({
   selector: 'autocomplete',
@@ -7,26 +7,34 @@ import {CORE_DIRECTIVES,FORM_DIRECTIVES} from "angular2/common";
   styleUrls: ['app/shared/components/autocomplete/autocomplete.component.css'],
   directives: [CORE_DIRECTIVES,FORM_DIRECTIVES]
 })
+
 export class AutocompleteComponent {
   filteredList: string[] = [];
-  optionsShown = false;
+  suggestionsShown = false;
 
   highlightedIndex = 0;
 
   @Input() placeholder = 'query';
-  @Input('options') allOptions: string[] = [];
+  @Input() options: string[] = [];
   @Input() value: string;
   @Output() valueChange: EventEmitter<any> = new EventEmitter();
 
-  filter() {
+  updateSuggestions() {
     if(this.value) {
-      let camelcaseMatcher = this.value.split("").join("[a-z]*");
-      let regex = new RegExp(camelcaseMatcher, "gi");
-      this.filteredList = this.allOptions.filter((option) => option.search(regex) > -1);
+      let camelcaseMatcher = this.value.split('').join('[a-z]*');
+      let regex = new RegExp(camelcaseMatcher);
+
+      this.filteredList = this.options
+        .map(o => <Relevancy>{option: o, search: o.search(regex)}) // add relevancy
+        .filter((r) => r.search > -1) // filter out irrelevant
+        .sort((r1,r2) => { return r1.search - r2.search; }) // sort by relevancy
+        .map((r) => r.option); // remove relevancy
+
     } else {
       this.filteredList = [];
     }
-    this.optionsShown = this.filteredList.length > 0;
+    this.suggestionsShown = this.filteredList.length > 0;
+    this.highlightedIndex = 0;
     this.valueChange.emit(this.value);
   }
 
@@ -36,7 +44,7 @@ export class AutocompleteComponent {
   }
 
   dismissSuggestions() {
-    this.optionsShown = false;
+    this.suggestionsShown = false;
   }
 
   select(item: string) {
@@ -45,13 +53,13 @@ export class AutocompleteComponent {
   }
 
   onKeydown(event: any) {
-    if(event.code === "ArrowUp") {
+    if(event.code === 'ArrowUp') {
       this.highlightedIndex--;
-    } else if(event.code === "ArrowDown") {
+    } else if(event.code === 'ArrowDown') {
       this.highlightedIndex++;
-    } else if(event.code === "Enter" &&
+    } else if(event.code === 'Enter' &&
       this.filteredList.length > this.highlightedIndex &&
-      this.optionsShown) {
+      this.suggestionsShown) {
       this.setNewValue(this.filteredList[this.highlightedIndex]);
       this.dismissSuggestions();
     } else {
@@ -65,4 +73,8 @@ export class AutocompleteComponent {
     }
     event.preventDefault();
   }
+}
+interface Relevancy {
+  option: string;
+  search: number;
 }

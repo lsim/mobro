@@ -1,6 +1,6 @@
 import {argv} from 'yargs';
 import {join} from 'path';
-import {InjectableDependency, Environments} from './seed.config.interfaces';
+import {InjectableDependency, Environments, SassOptions} from './seed.config.interfaces';
 
 export const ENVIRONMENTS: Environments = {
   DEVELOPMENT: 'dev',
@@ -15,7 +15,7 @@ export class SeedConfig {
   DEBUG                = argv['debug']                       || false;
   DOCS_PORT            = argv['docs-port']                   || 4003;
   COVERAGE_PORT        = argv['coverage-port']               || 4004;
-  APP_BASE             = argv['base']                        || '/';
+  APP_BASE             = argv['base']                        || '/conf.fapi/mobro/dist/prod/';
 
   ENABLE_HOT_LOADING   = argv['hot-loader'];
   HOT_LOADER_PORT      = 5578;
@@ -48,6 +48,8 @@ export class SeedConfig {
   VERSION_NODE         = '4.0.0';
 
   CODELYZER_RULES      = customRules();
+
+  SASS_OPTIONS: SassOptions = {};
 
   NPM_DEPENDENCIES: InjectableDependency[] = [
     { src: 'systemjs/dist/system-polyfills.src.js', inject: 'shims', env: ENVIRONMENTS.DEVELOPMENT },
@@ -119,8 +121,8 @@ export class SeedConfig {
     'bb >= 10'
   ];
 
-  private browserSyncProxyConfig = {
-    target: "http://cis-latest:8081",
+  browserSyncProxyConfig = {
+    target: 'http://cis-latest:8081',
     changeOrigin: true,
     logLevel: 'debug'
   };

@@ -1,12 +1,12 @@
 <div class="click-overlay"
      (click)="dismissSuggestions()"
-     *ngIf="optionsShown"></div>
+     *ngIf="suggesitonsShown"></div>
 <input type="search" class="query-input"
        [(ngModel)]=value
-       (ngModelChange)="filter()"
+       (ngModelChange)="updateSuggestions()"
        placeholder="{{placeholder}}"
        (keydown)="onKeydown($event)">
-<ul class="suggestions" *ngIf="optionsShown">
+<ul class="suggestions" *ngIf="suggestionsShown">
   <li *ngFor="let item of filteredList; let i = index"
       [ngClass]="{selected: highlightedIndex === i}">
     <a (click)="select(item)" >{{item}}</a>
