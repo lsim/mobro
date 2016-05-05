@@ -29,9 +29,14 @@ export class MapiEntityComponent {
 export class MapiEntity {
 
   entityFields: Object[];
+  superType: string;
 
-  constructor(public name: string, public subtypes: string[], public entityInfo: any) {
+  constructor(public name: string, public inheritors: string[], public entityInfo: any) {
     this.entityFields = this.toFieldViewModels(_.map(_.keys(entityInfo.fields).sort(), (f: string) => entityInfo.fields[f]));
+    this.superType = entityInfo._extends;
+    if(this.superType === "AbstractEntity") {
+      this.superType = undefined;
+    }
   }
 
   propertyMapper: any = {

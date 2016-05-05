@@ -1,4 +1,6 @@
 $border: solid 1px #106cc8;
+$detailsHeight: 300px;
+$propertyOddColor: #e1e1e1;
 
 @mixin truncate() {
   white-space: nowrap;
@@ -11,65 +13,81 @@ $border: solid 1px #106cc8;
   font-style: italic;
 }
 
+@mixin linklike() {
+  cursor: pointer;
+  text-decoration: underline;
+  color: blue;
+}
+
 :host {
   border: $border;
   display: flex;
   flex-direction: column;
   border-radius: 5px;
-  width: 50%;
-  height: 50%;
   margin: 5px;
 
   .entity_header {
     display: flex;
     justify-content: space-between;
+    white-space: nowrap;
 
     border-bottom: $border;
     padding: 5px;
 
-    .entity_name {
+    .entity_header_name {
       font-weight: bold;
+    }
+    .entity_header_superclass {
+      @include linklike();
     }
 
     .entity_remove_link {
-      cursor: pointer;
-      text-decoration: underline;
-      color: blue;
+      @include linklike();
     }
   }
-  .entity_properties {
-    height: 300px;
+
+  .entity_details {
+    height: $detailsHeight;
     overflow-y: scroll;
     padding: 5px;
-    margin: 0;
 
-    .entity_property {
-      display: flex;
-      justify-content: space-between;
-      padding: 0 5px;
-
-      &_odd {
-        background-color: #e1e1e1;
+    .entity_details_inheritors {
+      @include deEmphasize();
+      .entity_details_inheritors_inheritor {
+        @include linklike();
       }
+    }
 
-      .entity_property_name {
-        @include truncate()
-      }
+    .entity_details_properties {
 
-      .entity_property_flag {
-        font-size: 70%;
-        color: darkgray;
-        cursor: default;
-      }
+      .entity_property {
+        display: flex;
+        justify-content: space-between;
+        padding: 0 5px;
 
-      .entity_property_type {
-        @include deEmphasize();
-        @include truncate();
+        &_odd {
+          background-color: $propertyOddColor;
+        }
 
-        &_navigation {
-          cursor: pointer;
-          text-decoration: underline;
-          color: blue;
+        .entity_property_name {
+          @include truncate()
+        }
+
+        .entity_property_flag {
+          font-size: 70%;
+          color: darkgray;
+          cursor: default;
+        }
+
+        .entity_property_type {
+          @include deEmphasize();
+          @include truncate();
+
+          &_navigation {
+            cursor: pointer;
+            text-decoration: underline;
+            color: blue;
+          }
         }
       }
     }

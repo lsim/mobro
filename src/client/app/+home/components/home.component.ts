@@ -13,14 +13,11 @@ import {ModelMetaService,AutocompleteComponent,MapiEntityComponent,MapiEntity} f
 export class HomeComponent {
 
   allTypes: string[];
-
   searchString = "";
-
   entities: MapiEntity[] = [];
 
   constructor(public modelMetaService: ModelMetaService) {
-    modelMetaService.getTypes().then(types => this.allTypes = types)
-      .then(x => this.lookupEntity("Activity")); //TODO: remove
+    modelMetaService.getTypes().then(types => this.allTypes = types);
   }
 
   addEntity(entity: MapiEntity) {
