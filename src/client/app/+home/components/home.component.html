@@ -6,8 +6,10 @@
                 class="autocomplete"></autocomplete>
   <button type="submit">Look up</button>
 </form>
-<br>
-<mapientity *ngFor="let entity of entities, let idx = index"
-            [mapiEntity]="entity"
-            (remove)="removeEntity(idx)"
-            (navigate)="lookupEntity($event)"></mapientity>
+<div class="entity_canvas">
+  <mapientity *ngFor="let entity of entities, let idx = index"
+              [mapiEntity]="entity"
+              (remove)="removeEntity(idx)"
+              (navigate)="lookupEntity($event)"
+              class="entity_canvas_entity"></mapientity>
+</div>

@@ -1,14 +1,22 @@
 <div class="entity_header">
   <div class="entity_name">{{mapiEntity.name}}</div>
+  <!--<input [(ngModel)]="propFilter" placeholder="filter properties" />-->
   <a (click)="onRemoveClick()" class="entity_remove_link">remove</a>
 </div>
 <ul class="entity_properties">
-
-  <li *ngFor="let property of mapiEntity.entityFields">
-    {{property.name}}:
-    <span class="entity entity_property_type"
+  <li *ngFor="let property of mapiEntity.entityFields, let odd = odd"
+      class="entity_property"
+      [ngClass]="{entity_property_odd: odd}">
+    <span class="entity_property_name truncate">
+      {{property.name}}: <!--
+      --><span *ngIf="property.isNullable" class="entity_property_flag" title="Nullable">[?]</span><!--
+      --><span *ngIf="property.notNull" class="entity_property_flag" title="Not null">[!]</span><!--
+      --><span *ngIf="property.immutable" class="entity_property_flag" title="Immutable">[∞]</span>
+    </span>
+    <span class="entity_property_type truncate"
           [ngClass]="{entity_property_type_navigation: property.navigationTarget}"
-          (click)="navigateTo(property.navigationTarget)">
+          (click)="navigateTo(property.navigationTarget)"
+          title="{{property.displayedType}}">
       {{property.displayedType}}
     </span>
   </li>

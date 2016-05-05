@@ -12,6 +12,14 @@
       width: 100%;
     }
   }
+
+  .entity_canvas {
+    display: flex;
+    flex-wrap: wrap;
+    .entity_canvas_entity {
+      flex: 1 0 100px;
+    }
+  }
 }
 
 ul {

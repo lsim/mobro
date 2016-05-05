@@ -31,7 +31,7 @@ export class MapiEntity {
   entityFields: Object[];
 
   constructor(public name: string, public subtypes: string[], public entityInfo: any) {
-    this.entityFields = this.toFieldViewModels(_.map(_.keys(entityInfo.fields), (f: string) => entityInfo.fields[f]));
+    this.entityFields = this.toFieldViewModels(_.map(_.keys(entityInfo.fields).sort(), (f: string) => entityInfo.fields[f]));
   }
 
   propertyMapper: any = {

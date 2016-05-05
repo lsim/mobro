@@ -58,14 +58,11 @@ export class AutocompleteComponent {
       return;
     }
 
-    console.debug("event", event);
     if(this.highlightedIndex < 0) {
       this.highlightedIndex = this.filteredList.length + this.highlightedIndex;
     } else if(this.highlightedIndex >= this.filteredList.length) {
       this.highlightedIndex = this.highlightedIndex - this.filteredList.length;
     }
     event.preventDefault();
-    //event.stopImmediatePropagation();
-    //event.stopPropagation();
   }
 }
