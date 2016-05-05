@@ -1,6 +1,6 @@
 $border: solid 1px #106cc8;
 $detailsHeight: 300px;
-$propertyOddColor: #e1e1e1;
+$propertyOddColor: #eee;
 
 @mixin truncate() {
   white-space: nowrap;
@@ -38,7 +38,10 @@ $propertyOddColor: #e1e1e1;
       font-weight: bold;
     }
     .entity_header_superclass {
-      @include linklike();
+      @include deEmphasize();
+      .entity_header_superclass_name {
+        @include linklike();
+      }
     }
 
     .entity_remove_link {
@@ -92,5 +95,4 @@ $propertyOddColor: #e1e1e1;
       }
     }
   }
-
 }

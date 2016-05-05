@@ -1,8 +1,8 @@
 <div class="entity_header">
   <span>
     <span class="entity_header_name">{{mapiEntity.name}}</span>
-    <span *ngIf="mapiEntity.superType">
-      (extends <a class="entity_header_superclass" (click)="navigateTo(mapiEntity.superType)">{{mapiEntity.superType}}</a>)
+    <span *ngIf="mapiEntity.superType" class="entity_header_superclass">
+      extends <a class="entity_header_superclass_name" (click)="navigateTo(mapiEntity.superType)">{{mapiEntity.superType}}</a>
     </span>
   </span>
   <a (click)="onRemoveClick()" class="entity_remove_link">dismiss</a>
@@ -10,6 +10,7 @@
 <div class="entity_details">
   <div class="entity_details_inheritors">
     Inheritors:
+    <span *ngIf="mapiEntity.inheritors.length == 0">(none)</span>
     <span *ngFor="let inheritor of mapiEntity.inheritors, let last=last">
       <span class="entity_details_inheritors_inheritor"
             (click)="navigateTo(inheritor)">{{inheritor}}</span><!--
