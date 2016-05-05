@@ -1,14 +1,14 @@
-import {Component} from 'angular2/core';
+import {Component,TemplateRef} from 'angular2/core';
 import {Observable} from 'rxjs/Observable';
 import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
 
-import {ModelMetaService,AutocompleteComponent} from '../../shared/index';
+import {ModelMetaService,AutocompleteComponent,MapiEntityComponent,MapiEntity} from '../../shared/index';
 
 @Component({
   selector: 'mb-home',
   templateUrl: 'app/+home/components/home.component.html',
   styleUrls: ['app/+home/components/home.component.css'],
-  directives: [FORM_DIRECTIVES, CORE_DIRECTIVES, AutocompleteComponent]
+  directives: [FORM_DIRECTIVES, CORE_DIRECTIVES, AutocompleteComponent, MapiEntityComponent]
 })
 export class HomeComponent {
 
@@ -16,37 +16,31 @@ export class HomeComponent {
 
   searchString = "";
 
-  entities: FapiEntity[] = [];
+  entities: MapiEntity[] = [];
 
   constructor(public modelMetaService: ModelMetaService) {
-    modelMetaService.getTypes().then(types => this.allTypes = types);
+    modelMetaService.getTypes().then(types => this.allTypes = types)
+      .then(x => this.lookupEntity("Activity")); //TODO: remove
   }
 
-  searchStringChanged(event: any) {
-    //TODO: double binding should leave this method redundant!
-    this.searchString = event;
+  addEntity(entity: MapiEntity) {
+    this.entities.push(entity);
   }
 
-  lookupEntity() {
-    let query = this.searchString;
-    if(this.entities.find((e) => e.name === query)) {
+  lookupEntity(query: string) {
+    if(!query || this.entities.find((e) => e.name === query)) {
       return;
     }
     this.searchString = "";
     Observable.forkJoin(
       this.modelMetaService.getSubtypesOfType(query),
       this.modelMetaService.getEntityInfo(query)
-    ).subscribe(([subtypes, entityInfo]) => {
-      this.entities.push(new FapiEntity(query, subtypes, entityInfo));
+    ).subscribe(([subtypes, entityInfo]: Array<any>) => {
+      this.addEntity(new MapiEntity(query, subtypes, entityInfo));
     });
   }
-}
 
-class FapiEntity {
-
-  infoJson: string;
-
-  constructor(public name: string, public subtypes: string[], public entityInfo: any) {
-    this.infoJson = JSON.stringify(entityInfo);
+  removeEntity(index: number) {
+    this.entities.splice(index, 1);
   }
 }

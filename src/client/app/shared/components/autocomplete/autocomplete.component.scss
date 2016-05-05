@@ -42,6 +42,10 @@ $zOffset: 10000;
       margin: 0;
       padding: 3px;
       line-height: 20px;
+
+      &.selected {
+        background-color: gray;
+      }
     }
   }
 }

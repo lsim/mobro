@@ -1,0 +1,26 @@
+$border: solid 1px #106cc8;
+
+:host {
+  border: $border;
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+
+  .entity_header {
+    display: flex;
+    justify-content: space-between;
+
+    border-bottom: $border;
+    padding: 5px;
+
+    .entity_name {
+      font-weight: bold;
+    }
+
+    .entity_remove_link {
+      cursor: pointer;
+    }
+  }
+
+
+}

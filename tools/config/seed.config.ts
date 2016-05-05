@@ -22,7 +22,7 @@ export class SeedConfig {
 
   BOOTSTRAP_MODULE     = this.ENABLE_HOT_LOADING ? 'hot_loader_main' : 'main';
 
-  APP_TITLE            = 'My Angular2 App';
+  APP_TITLE            = 'MoBro';
 
   APP_SRC              = 'src/client';
   ASSETS_SRC           = `${this.APP_SRC}/assets`;
@@ -83,12 +83,14 @@ export class SeedConfig {
       'rxjs/observable/*' : `${this.APP_BASE}rxjs/observable/*.js`,
       'rxjs/operator/*' : `${this.APP_BASE}rxjs/operator/*.js`,
       'rxjs/*': `${this.APP_BASE}rxjs/*`,
+      //'lodash': `${this.APP_BASE}lodash/lodash.min.js`,
       'app/*': `/app/*`,
       '*': `${this.APP_BASE}node_modules/*`
     },
     packages: {
       angular2: { defaultExtension: false },
-      rxjs: { defaultExtension: false }
+      rxjs: { defaultExtension: false },
+      //lodash: { defaultExtension: false}
     }
   };
 

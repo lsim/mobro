@@ -4,10 +4,12 @@
 <input type="search" class="query-input"
        [(ngModel)]=value
        (ngModelChange)="filter()"
-       placeholder="{{placeholder}}">
+       placeholder="{{placeholder}}"
+       (keydown)="onKeydown($event)">
 <ul class="suggestions" *ngIf="optionsShown">
-  <li *ngFor="let item of filteredList">
-    <a (click)="select(item)">{{item}}</a>
+  <li *ngFor="let item of filteredList; let i = index"
+      [ngClass]="{selected: highlightedIndex === i}">
+    <a (click)="select(item)" >{{item}}</a>
   </li>
 </ul>
 

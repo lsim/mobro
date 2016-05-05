@@ -1,0 +1,15 @@
+<div class="entity_header">
+  <div class="entity_name">{{mapiEntity.name}}</div>
+  <a (click)="onRemoveClick()" class="entity_remove_link">remove</a>
+</div>
+<ul class="entity_properties">
+
+  <li *ngFor="let property of mapiEntity.entityFields">
+    {{property.name}}:
+    <span class="entity entity_property_type"
+          [ngClass]="{entity_property_type_navigation: property.navigationTarget}"
+          (click)="navigateTo(property.navigationTarget)">
+      {{property.displayedType}}
+    </span>
+  </li>
+</ul>

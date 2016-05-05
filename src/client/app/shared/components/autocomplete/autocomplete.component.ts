@@ -11,25 +11,28 @@ export class AutocompleteComponent {
   filteredList: string[] = [];
   optionsShown = false;
 
+  highlightedIndex = 0;
+
   @Input() placeholder = 'query';
   @Input('options') allOptions: string[] = [];
   @Input() value: string;
-  @Output() valueChanged: EventEmitter<any> = new EventEmitter();
+  @Output() valueChange: EventEmitter<any> = new EventEmitter();
 
   filter() {
     if(this.value) {
-      let regex = new RegExp(this.value, "gi");
+      let camelcaseMatcher = this.value.split("").join("[a-z]*");
+      let regex = new RegExp(camelcaseMatcher, "gi");
       this.filteredList = this.allOptions.filter((option) => option.search(regex) > -1);
     } else {
       this.filteredList = [];
     }
     this.optionsShown = this.filteredList.length > 0;
-    this.valueChanged.emit(this.value);
+    this.valueChange.emit(this.value);
   }
 
   setNewValue(value: string) {
     this.value = value;
-    this.valueChanged.emit(this.value);
+    this.valueChange.emit(this.value);
   }
 
   dismissSuggestions() {
@@ -39,5 +42,30 @@ export class AutocompleteComponent {
   select(item: string) {
     this.setNewValue(item);
     this.dismissSuggestions();
+  }
+
+  onKeydown(event: any) {
+    if(event.code === "ArrowUp") {
+      this.highlightedIndex--;
+    } else if(event.code === "ArrowDown") {
+      this.highlightedIndex++;
+    } else if(event.code === "Enter" &&
+      this.filteredList.length > this.highlightedIndex &&
+      this.optionsShown) {
+      this.setNewValue(this.filteredList[this.highlightedIndex]);
+      this.dismissSuggestions();
+    } else {
+      return;
+    }
+
+    console.debug("event", event);
+    if(this.highlightedIndex < 0) {
+      this.highlightedIndex = this.filteredList.length + this.highlightedIndex;
+    } else if(this.highlightedIndex >= this.filteredList.length) {
+      this.highlightedIndex = this.highlightedIndex - this.filteredList.length;
+    }
+    event.preventDefault();
+    //event.stopImmediatePropagation();
+    //event.stopPropagation();
   }
 }
