@@ -1,6 +1,6 @@
 import {HTTP_PROVIDERS,XHRBackend,ResponseOptions,Response} from 'angular2/http';
 import {provide} from 'angular2/core';
-import {beforeEachProviders,inject} from 'angular2/testing';
+import {beforeEachProviders,inject,it} from 'angular2/testing';
 import {MockBackend,MockConnection} from 'angular2/http/testing';
 import {ModelMetaService} from './model-meta.service';
 
@@ -23,7 +23,7 @@ export function main() {
       expect(2 + 3).toBe(5);
     });
 
-    it('should get all types', inject([XHRBackend,ModelMetaService],(mockBackend, modelMetaService) => {
+    it('should get all types', inject([XHRBackend,ModelMetaService],(mockBackend: MockBackend, modelMetaService: ModelMetaService) => {
 
       mockBackend.connections.subscribe(
         (connection: MockConnection) => {
