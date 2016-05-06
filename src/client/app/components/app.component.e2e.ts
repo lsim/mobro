@@ -12,8 +12,8 @@ describe('App', () => {
       expect(element(by.css('mb-app mb-navbar nav')).isPresent()).toEqual(true);
   });
 
-  it('should have correct nav text for Home', () => {
-      expect(element(by.css('mb-app mb-navbar nav a:first-child')).getText()).toEqual('HOME');
+  it('should have correct nav text for Lookup', () => {
+      expect(element(by.css('mb-app mb-navbar nav a:first-child')).getText()).toEqual('LOOKUP');
   });
 
   it('should have correct nav text for About', () => {

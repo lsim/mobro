@@ -3,7 +3,7 @@ import {ROUTER_DIRECTIVES, RouteConfig} from 'angular2/router';
 import {NavbarComponent} from './navbar.component';
 import {ToolbarComponent} from './toolbar.component';
 import {NameListService,ModelMetaService} from '../shared/index';
-import {HomeComponent} from '../+home/index';
+import {LookupComponent} from '../+lookup/index';
 import {AboutComponent} from '../+about/index';
 
 @Component({
@@ -15,8 +15,8 @@ import {AboutComponent} from '../+about/index';
 @RouteConfig([
   {
     path: '/',
-    name: 'Home',
-    component: HomeComponent
+    name: 'Lookup',
+    component: LookupComponent
   },
   {
     path: '/about',

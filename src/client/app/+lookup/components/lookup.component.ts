@@ -5,12 +5,12 @@ import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
 import {ModelMetaService,AutocompleteComponent,MapiEntityComponent,MapiEntity} from '../../shared/index';
 
 @Component({
-  selector: 'mb-home',
-  templateUrl: 'app/+home/components/home.component.html',
-  styleUrls: ['app/+home/components/home.component.css'],
+  selector: 'mb-lookup',
+  templateUrl: 'app/+lookup/components/lookup.component.html',
+  styleUrls: ['app/+lookup/components/lookup.component.css'],
   directives: [FORM_DIRECTIVES, CORE_DIRECTIVES, AutocompleteComponent, MapiEntityComponent]
 })
-export class HomeComponent {
+export class LookupComponent {
 
   allTypes: string[];
   searchString = '';
