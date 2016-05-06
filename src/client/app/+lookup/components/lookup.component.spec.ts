@@ -8,7 +8,7 @@ import {
 import {Component} from 'angular2/core';
 import {DOM} from 'angular2/src/platform/dom/dom_adapter';
 import {LookupComponent} from './lookup.component';
-import {NameListService} from '../../shared/index';
+import {ModelMetaService} from '../../shared/index';
 
 
 export function main() {
@@ -25,7 +25,7 @@ export function main() {
               return lookupInstance.nameListService.names.length;
             };
 
-            expect(lookupInstance.nameListService).toEqual(jasmine.any(NameListService));
+            expect(lookupInstance.nameListService).toEqual(jasmine.any(ModelMetaService));
             expect(nameListLen()).toEqual(4);
             expect(DOM.querySelectorAll(lookupDOMEl, 'li').length).toEqual(nameListLen());
 
@@ -43,7 +43,7 @@ export function main() {
 }
 
 @Component({
-  providers: [NameListService],
+  providers: [ModelMetaService],
   selector: 'test-cmp',
   template: '<mb-lookup></mb-lookup>',
   directives: [LookupComponent]
