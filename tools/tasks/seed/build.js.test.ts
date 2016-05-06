@@ -18,7 +18,7 @@ export = () => {
     .pipe(plugins.plumber())
     .pipe(plugins.sourcemaps.init())
     .pipe(plugins.inlineNg2Template({
-      base: APP_SRC,
+      base: APP_DEST,
       useRelativePaths: false
     }))
     .pipe(plugins.typescript(tsProject));

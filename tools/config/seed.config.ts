@@ -65,7 +65,7 @@ export class SeedConfig {
 
   // Declare local files that needs to be injected
   APP_ASSETS: InjectableDependency[] = [
-    { src: `${this.CSS_SRC}/main.css`, inject: true, vendor: false }
+    { src: `${this.CSS_DEST}/main.css`, inject: true, vendor: false }
   ];
 
   get DEPENDENCIES(): InjectableDependency[] {
@@ -85,14 +85,12 @@ export class SeedConfig {
       'rxjs/observable/*' : `${this.APP_BASE}rxjs/observable/*.js`,
       'rxjs/operator/*' : `${this.APP_BASE}rxjs/operator/*.js`,
       'rxjs/*': `${this.APP_BASE}rxjs/*`,
-      //'lodash': `${this.APP_BASE}lodash/lodash.min.js`,
       'app/*': `/app/*`,
       '*': `${this.APP_BASE}node_modules/*`
     },
     packages: {
       angular2: { defaultExtension: false },
-      rxjs: { defaultExtension: false },
-      //lodash: { defaultExtension: false}
+      rxjs: { defaultExtension: false }
     }
   };
 
