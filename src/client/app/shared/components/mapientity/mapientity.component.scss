@@ -63,36 +63,13 @@ $propertyOddColor: #eee;
 
     .entity_details_properties {
 
-      .entity_property {
-        display: flex;
-        justify-content: space-between;
-        padding: 0 5px;
-
-        &_odd {
-          background-color: $propertyOddColor;
-        }
-
-        .entity_property_name {
-          @include truncate()
-        }
-
-        .entity_property_flag {
-          font-size: 70%;
-          color: darkgray;
-          cursor: default;
-        }
-
-        .entity_property_type {
-          @include deEmphasize();
-          @include truncate();
-
-          &_navigation {
-            cursor: pointer;
-            text-decoration: underline;
-            color: blue;
-          }
+      .entity_property_header {
+        @include deEmphasize();
+        .entity_property_header_link {
+          @include linklike();
         }
       }
+
     }
   }
 }

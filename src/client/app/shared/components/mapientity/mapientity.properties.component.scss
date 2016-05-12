@@ -1,0 +1,39 @@
+@import 'mapientity.component';
+
+:host {
+  display: flex;
+  flex-direction: column;
+  overflow:hidden; // To avoid overlapping of border-radius corners
+
+  border: $border;
+
+  .entity_property {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 5px;
+
+    &_odd {
+      background-color: $propertyOddColor;
+    }
+
+    .entity_property_name {
+      @include truncate()
+    }
+
+    .entity_property_flag {
+      font-size: 70%;
+      color: darkgray;
+      cursor: default;
+    }
+
+    .entity_property_type {
+      @include deEmphasize();
+      @include truncate();
+
+      &_navigation {
+        cursor: pointer;
+        text-decoration: underline;
+        color: blue;
+      }
+    }
+  }}

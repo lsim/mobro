@@ -2,14 +2,14 @@
       class="query-form">
   <autocomplete [(value)]="searchString"
                 [options]="allTypes"
-                placeholder="Search (supports camelcase search!)"
+                placeholder="<type to look up> (try 'BPLA' or 'ExMPLA')"
                 class="autocomplete"></autocomplete>
   <button type="submit">Look up</button>
 </form>
 <div class="entity_canvas">
-  <mapientity *ngFor="let entity of entities, let idx = index"
-              [mapiEntity]="entity"
+  <mapientity *ngFor="let modelType of modelTypes, let idx = index"
+              [modelType]="modelType"
               (remove)="removeEntity(idx)"
-              (navigate)="lookupEntity($event)"
+              (navigate)="addModelType($event)"
               class="entity_canvas_entity"></mapientity>
 </div>

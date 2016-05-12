@@ -1,0 +1,18 @@
+<ul *ngIf="modelType.properties.length > 0">
+  <li *ngFor="let property of modelType.properties, let odd = odd"
+      class="entity_property"
+      [ngClass]="{entity_property_odd: odd}">
+      <span class="entity_property_name">
+        {{property.name}}: <!--
+        --><span *ngIf="property.isNullable" class="entity_property_flag" title="Nullable">[?]</span><!--
+        --><span *ngIf="property.notNull" class="entity_property_flag" title="Not null">[!]</span><!--
+        --><span *ngIf="property.immutable" class="entity_property_flag" title="Immutable">[∞]</span>
+      </span>
+      <span class="entity_property_type"
+            [ngClass]="{entity_property_type_navigation: property.referencedType}"
+            (click)="navigateTo(property.referencedType)"
+            title="{{property.description}}">
+        {{property.description}}
+      </span>
+  </li>
+</ul>

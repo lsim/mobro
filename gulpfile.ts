@@ -12,7 +12,7 @@ loadTasks(PROJECT_TASKS_DIR);
 gulp.task('build.dev', (done: any) =>
   runSequence(//'clean.dev',
               'tslint',
-              'sass-lint',
+              //'sass-lint',
               'build.assets.dev',
               'build.html',
               'build.scss',
