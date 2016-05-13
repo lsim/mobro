@@ -132,7 +132,7 @@ export class ModelType {
       this.superType.addSubtype(this);
     }
     this.properties = _.values(this.rawModelEntity.fields)
-      .map((rawProp: IRawModelProperty) => new ModelProperty(rawProp, typeLookup));
+      .map((rawProp: IRawModelProperty) => new ModelProperty(rawProp, typeLookup)).sort((p1, p2) => p1.name.localeCompare(p2.name));
   }
 
   createAndReturnAncestorList(): Array<ModelType> {

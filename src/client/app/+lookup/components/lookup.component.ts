@@ -25,13 +25,16 @@ export class LookupComponent {
     });
   }
 
-  addModelType(entity: ModelType) {
-    this.modelTypes.push(entity);
+  addModelType(newModelType: ModelType) {
+    if(newModelType && !this.modelTypes.find((e) => e === newModelType)) {
+      this.modelTypes.push(newModelType);
+    }
+
   }
 
   lookupEntity(query: string) {
     let newModelType = this.typeMap[query];
-    if(!query || !newModelType || this.modelTypes.find((e) => e === newModelType)) {
+    if(!query) {
       return;
     }
     this.searchString = '';
