@@ -18,7 +18,6 @@ export class LookupComponent {
   modelTypes: Array<ModelType> = [];
 
   constructor(public modelMetaService: ModelMetaService) {
-    //modelMetaService.getTypes().then(types => this.allTypes = types);
     modelMetaService.getFullTypeHierarchy().then((fullTypeHierarchy) => {
       this.typeMap = fullTypeHierarchy;
       this.allTypes = _.keys(fullTypeHierarchy);
