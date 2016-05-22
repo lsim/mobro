@@ -30,7 +30,7 @@ export class TypeGraphComponent implements OnChanges {
 
   constructor() {
     this.graph = new Graph();
-    this.layout = new ForceDirectedLayout(this.graph, 200, 800, 0.5, 2);
+    this.layout = new ForceDirectedLayout(this.graph, 100, 1000, 0.5, 2);
     this.renderer = new Renderer(this.layout, this.clear, this.drawEdge, this.drawNode, this.onRenderStop, this.onRenderStart);
   }
 
@@ -44,7 +44,7 @@ export class TypeGraphComponent implements OnChanges {
     this.nodeMap = {};
     this.graph.filterNodes((n) => false);
     currentValue.forEach((mt) => this.addModelType(mt));
-    this.createEdgesForModelTypes(false, true);
+    this.createEdgesForModelTypes(true, false);
     this.renderer.start();
   }
 
@@ -97,6 +97,8 @@ export class TypeGraphComponent implements OnChanges {
       return;
     }
     const edge: AnEdge = new Edge(id, node1, node2, new EdgeData());
+    node1.data.outboundEdges.push(edge);
+    node2.data.inboundEdges.push(edge);
     this.edgeMap[id] = edge;
     this.graph.addEdge(edge);
   }
@@ -150,6 +152,8 @@ class NodeData {
   transform: string = '';
   pos: Vector = new Vector(0,0);
   dragOffset: Vector = new Vector(0,0);
+  inboundEdges: Array<Edge> = [];
+  outboundEdges: Array<Edge> = [];
 
   constructor(public modelType: ModelType) {}
 
@@ -164,6 +168,8 @@ class NodeData {
   }
   updateTransform() {
     let p = this.pos.add(this.dragOffset);
+    this.outboundEdges.forEach((e) => e.data.pos1 = p);
+    this.inboundEdges.forEach((e) => e.data.pos2 = p);
     this.transform = `translate(${p.x},${p.y})`;
   }
 }

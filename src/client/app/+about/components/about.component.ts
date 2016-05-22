@@ -16,7 +16,7 @@ export class AboutComponent {
   constructor(public modelMetaService: ModelMetaService) {
     modelMetaService.getFullTypeHierarchy().then((fullTypeHierarchy) => {
       this.typeMap = fullTypeHierarchy;
-      this.modelTypes = <Array<ModelType>>_.take(_.values(fullTypeHierarchy), 55);
+      this.modelTypes = <Array<ModelType>>_.take(_.values(fullTypeHierarchy), 35);
     });
   }
 }
