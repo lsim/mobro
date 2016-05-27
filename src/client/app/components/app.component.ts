@@ -5,6 +5,7 @@ import {ToolbarComponent} from './toolbar.component';
 import {ModelMetaService} from '../shared/index';
 import {LookupComponent} from '../+lookup/index';
 import {AboutComponent} from '../+about/index';
+import {LookupGraphComponent} from '../+lookupgraph/index';
 
 @Component({
   selector: 'mb-app',
@@ -22,6 +23,11 @@ import {AboutComponent} from '../+about/index';
     path: '/about',
     name: 'About',
     component: AboutComponent
+  },
+  {
+    path: '/graph',
+    name: 'LookupGraph',
+    component: LookupGraphComponent
   }
 ])
 export class AppComponent {}

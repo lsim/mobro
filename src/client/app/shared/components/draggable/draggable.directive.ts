@@ -1,6 +1,6 @@
 import {Directive, EventEmitter, HostListener, Output} from 'angular2/core';
 import {Observable} from 'rxjs/Observable';
-import 'rxjs/Rx';
+import 'rxjs/Rx';// To make .map available on Observables
 
 @Directive({
   selector: '[draggable]'
@@ -14,7 +14,7 @@ export class DraggableDirective {
   dragActive = false;
 
   @HostListener('document:mouseup', ['$event'])
-  onMouseup(event) {
+  onMouseup(event: MouseEvent) {
     if(this.dragActive) {
       this.dragend.emit(null);
       this.dragActive = false;
@@ -32,14 +32,15 @@ export class DraggableDirective {
       this.mousemove.emit(event);
       return false;
     }
+    return true;
   }
 
   constructor() {
-    this.mousedrag = this.mousedown.map((event) => {
+    this.mousedrag = this.mousedown.map((event: MouseEvent) => {
       this.dragActive = true;
       return { x: event.clientX, y: event.clientY };
-    }).flatMap(mouseDownPos => this.mousemove.map(pos => {
-      return { x: pos.clientX - mouseDownPos.x, y: pos.clientY - mouseDownPos.y };
+    }).flatMap((mouseDownPos: {x: number, y: number}) => this.mousemove.map((moveEvent: MouseEvent) => {
+      return { x: moveEvent.clientX - mouseDownPos.x, y: moveEvent.clientY - mouseDownPos.y };
     }).takeUntil(this.dragend));
   }
 

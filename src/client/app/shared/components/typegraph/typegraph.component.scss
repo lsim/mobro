@@ -6,12 +6,7 @@
   background-color: #eaeaea;
 
   .typegraph__node {
-    //position:absolute;
-    //background-color: white;
     fill: white;
-    stroke: black;
-    stroke-width: 1;
-
   }
 
   circle {
@@ -26,5 +21,14 @@
   .edge {
     stroke: black;
     stroke-width: 2;
+
+    &--aggregation {
+      stroke-dasharray: 2, 6;
+      stroke: blue;
+    }
+
+    &--inheritance {
+
+    }
   }
 }

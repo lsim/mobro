@@ -1,0 +1,28 @@
+:host {
+  display: flex;
+  flex-direction: column;
+
+  .query-form {
+    display: flex;
+    width: 100%;
+
+    .autocomplete {
+      display: flex;
+      width: 100%;
+    }
+  }
+
+  .entity_canvas {
+    display: flex;
+    width: 100%;
+
+    .typegraph {
+      width: 100%;
+    }
+  }
+}
+
+ul {
+  list-style-type: none;
+  padding: 0 0 0 8px;
+}

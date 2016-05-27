@@ -6,6 +6,8 @@ import * as _ from 'lodash';
 @Injectable()
 export class ModelMetaService {
 
+  allTypes: Array<IRawModelType>;
+
   constructor(private http: Http) {
   }
 
@@ -21,19 +23,30 @@ export class ModelMetaService {
     return this.sendFapiRequest('browser', type);
   }
 
+  buildTypeHierarchy(allTypes: Array<IRawModelType>) {
+    let modelTypeMap: {[key: string]: ModelType} = {};
+    // First a pass to create an object instance for each raw type object
+    allTypes.forEach((rawType:IRawModelType) => modelTypeMap[rawType.path] = new ModelType(rawType));
+    let typeLookup = (s: string) => <ModelType>modelTypeMap[s];
+    // Then a pass to set up references between object instances
+    _.values(modelTypeMap).forEach((modelType: ModelType) => modelType.setReferenceProperties(typeLookup));
+    // Lastly a pass to build ancestor lists
+    _.values(modelTypeMap).forEach((modelType: ModelType) => modelType.createAndReturnAncestorList());
+    return modelTypeMap;
+  }
+
   getFullTypeHierarchy(): Promise<{[key: string]: ModelType}> {
+    if(this.allTypes) {
+      return new Promise((resolve) => {
+        const typeHierarchy = this.buildTypeHierarchy(this.allTypes);
+        resolve(typeHierarchy);
+      });
+    }
     return this.sendFapiRequest('all')
       .then((allTypesObj) => _.values(allTypesObj))
       .then((allTypes: Array<IRawModelType>) => {
-        let modelTypeMap: {[key: string]: ModelType} = {};
-        // First a pass to create an object instance for each raw type object
-        allTypes.forEach((rawType:IRawModelType) => modelTypeMap[rawType.path] = new ModelType(rawType));
-        let typeLookup = (s: string) => <ModelType>modelTypeMap[s];
-        // Then a pass to set up references between object instances
-        _.values(modelTypeMap).forEach((modelType: ModelType) => modelType.setReferenceProperties(typeLookup));
-        // Lastly a pass to build ancestor lists
-        _.values(modelTypeMap).forEach((modelType: ModelType) => modelType.createAndReturnAncestorList());
-        return modelTypeMap;
+        this.allTypes = allTypes;
+        return this.buildTypeHierarchy(allTypes);
     });
   }
 

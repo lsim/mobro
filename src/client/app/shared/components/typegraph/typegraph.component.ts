@@ -3,7 +3,7 @@ import {CORE_DIRECTIVES} from 'angular2/common';
 import {Renderer, Node, Edge, ForceDirectedLayout, Graph, Vector, BoundingBox} from './springy';
 import {ModelType, ModelProperty} from '../../index';
 import {DraggableDirective} from '../draggable/draggable.directive';
-//import * as _ from 'lodash';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'typegraph',
@@ -17,12 +17,9 @@ export class TypeGraphComponent implements OnChanges {
   graph: Graph;
   layout: ForceDirectedLayout;
 
-  nodes: Array<ANode> = [];
-  nodeMap: {[key: string]: ANode};
-  edgeMap: {[key: string]: AnEdge};
-
   canvas: any = {width: 1000, height: 1000};
   nodeSize: number = 50;
+  locationPathname: string;
 
   boundingBox: BoundingBox = null;
 
@@ -35,71 +32,89 @@ export class TypeGraphComponent implements OnChanges {
   }
 
   ngOnChanges(changes: {[propertyName: string]: SimpleChange}) {
-    const change = changes['modelTypes'];
-    const currentValue: Array<ModelType> = change.currentValue;
-    if(!currentValue || currentValue.length === 0) {
-      return;
-    }
-    this.nodes = [];
-    this.nodeMap = {};
-    this.graph.filterNodes((n) => false);
-    currentValue.forEach((mt) => this.addModelType(mt));
-    this.createEdgesForModelTypes(true, false);
+    this.handleModelTypesChange(changes['modelTypes']);
+  }
+
+  ngAfterViewInit() {
+    this.locationPathname = location.pathname;
+  }
+
+  handleModelTypesChange(change: SimpleChange) {
+    const currentValue = <Array<ModelType>>change.currentValue;
+    const previousValue = <Array<ModelType>>change.previousValue;
+    const toBeAdded = _.difference(currentValue, previousValue);
+    const toBeRemoved = _.difference(previousValue, currentValue);
+    toBeAdded.forEach((mt: ModelType) => this.addModelType(mt));
+    toBeRemoved.forEach((mt: ModelType) => this.removeModelType(mt));
+    this.createEdgesForModelTypes(true, true);
     this.renderer.start();
   }
 
+  //TODO: make a more efficient edge lookup to speed up dragging
+  edgeLookup(nodeId: string): {inbound: Array<Edge>, outbound: Array<Edge>} {
+    const result = { inbound: <Array<Edge>>[], outbound: <Array<Edge>>[] };
+    for(let edge of this.graph.edges) {
+      if(edge.source.id === nodeId) {
+        result.outbound.push(edge);
+      }
+      if(edge.target.id === nodeId) {
+        result.inbound.push(edge);
+      }
+    }
+    return result;
+  }
+
   addModelType(modelType: ModelType) {
-    if(this.nodeMap[modelType.name] !== undefined) {
-      console.debug('Model already in the model', modelType.name);
+    if(this.graph.nodeSet[modelType.name] !== undefined) {
+      console.debug('ModelType already in the graph', modelType.name);
       return;
     }
-    const nodeData = new NodeData(modelType);
+    const nodeData = new NodeData(modelType, (nodeId) => this.edgeLookup(nodeId));
     const node: ANode = new Node(modelType.name, nodeData);
-    this.nodes.push(node);
-    this.nodeMap[modelType.name] = node;
     this.graph.addNode(node);
   }
 
+  removeModelType(modelType: ModelType) {
+    const node = this.graph.nodeSet[modelType.name];
+    if(node) {
+      this.graph.removeNode(node);
+    }
+  }
+
   createEdgesForModelTypes(includeAggregations: boolean, includeInheritance: boolean) {
-    // Clear any existing edges first
-    this.graph.filterEdges((e) => false);
-    this.edgeMap = {};
-    this.nodes.forEach((node) => {
+    this.layout.eachNode((node: ANode, p: any) => {
       //TODO: add different types of edges to super type, sub types, aggregations respectively
       const modelType = node.data.modelType;
       if(includeInheritance && modelType.superType) {
-        const superTypeNode = this.nodeMap[modelType.superType.name];
+        const superTypeNode = this.graph.nodeSet[modelType.superType.name];
         if(superTypeNode) {
-          this.addEdgeBetweenNodes(node, superTypeNode);
+          this.addEdgeBetweenNodes(node, superTypeNode, 'inheritance');
         }
       }
-      const addEdgeToType = (modelType: ModelType) => {
-        const typeNode = this.nodeMap[modelType.name];
+      const addEdgeToType = (modelType: ModelType, type: string) => {
+        const typeNode = this.graph.nodeSet[modelType.name];
         if(typeNode) {
-          this.addEdgeBetweenNodes(node, typeNode);
+          this.addEdgeBetweenNodes(node, typeNode, type);
         }
       };
-      //modelType.subtypes.forEach(addEdgeToType);
       if(includeAggregations) {
         modelType.properties.forEach((prop: ModelProperty) => {
           if(prop.referencedType) {
-            addEdgeToType(prop.referencedType);
+            addEdgeToType(prop.referencedType, 'aggregation');
           }
         });
       }
     });
   }
 
-  addEdgeBetweenNodes(node1: ANode, node2: ANode) {
+  addEdgeBetweenNodes(node1: ANode, node2: ANode, type: String) {
     const id = `${node1.data.modelType.name}->${node2.data.modelType.name}`;
-    if(this.edgeMap[id] !== undefined) {
+    const existingEdges = this.graph.getEdges(node1, node2);
+    if(existingEdges.length > 0) {
       console.debug('Edge already in the model', id);
       return;
     }
-    const edge: AnEdge = new Edge(id, node1, node2, new EdgeData());
-    node1.data.outboundEdges.push(edge);
-    node2.data.inboundEdges.push(edge);
-    this.edgeMap[id] = edge;
+    const edge: AnEdge = new Edge(id, node1, node2, new EdgeData(type));
     this.graph.addEdge(edge);
   }
 
@@ -142,6 +157,7 @@ export class TypeGraphComponent implements OnChanges {
 class EdgeData {
   pos1: Vector = new Vector(0,0);
   pos2: Vector = new Vector(0,0);
+  constructor(public type: String) {}
 }
 
 interface AnEdge extends Edge {
@@ -152,10 +168,8 @@ class NodeData {
   transform: string = '';
   pos: Vector = new Vector(0,0);
   dragOffset: Vector = new Vector(0,0);
-  inboundEdges: Array<Edge> = [];
-  outboundEdges: Array<Edge> = [];
 
-  constructor(public modelType: ModelType) {}
+  constructor(public modelType: ModelType, public edgeLookup: (nodeId: string) => ({inbound: Array<Edge>, outbound: Array<Edge>})) {}
 
   drag(pos: {x: number, y: number}) {
     this.dragOffset = new Vector(pos.x,pos.y);
@@ -167,9 +181,10 @@ class NodeData {
     this.updateTransform();
   }
   updateTransform() {
-    let p = this.pos.add(this.dragOffset);
-    this.outboundEdges.forEach((e) => e.data.pos1 = p);
-    this.inboundEdges.forEach((e) => e.data.pos2 = p);
+    const p = this.pos.add(this.dragOffset);
+    const edges = this.edgeLookup(this.modelType.name);
+    edges.outbound.forEach((e) => e.data.pos1 = p);
+    edges.inbound.forEach((e) => e.data.pos2 = p);
     this.transform = `translate(${p.x},${p.y})`;
   }
 }

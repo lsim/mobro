@@ -401,7 +401,7 @@ export class ForceDirectedLayout {
   }
 
   applyHookesLaw() {
-    this.eachSpring(function(spring){
+    this.eachSpring((spring) => {
       let d = spring.point2.p.subtract(spring.point1.p); // the direction of the spring
       let displacement = spring.length - d.magnitude();
       let direction = d.normalise();
@@ -413,7 +413,7 @@ export class ForceDirectedLayout {
   }
 
   attractToCentre() {
-    this.eachNode(function(node, point) {
+    this.eachNode((node, point) => {
       let direction = point.p.multiply(-1.0);
       point.applyForce(direction.multiply(this.repulsion / 50.0));
     });
@@ -494,7 +494,7 @@ export class ForceDirectedLayout {
   // Find the nearest point to a particular position
   nearest(pos: Vector) {
     let min = {node: <Node>null, point: <Point>null, distance: <number>null};
-    this.graph.nodes.forEach(function(n){
+    this.graph.nodes.forEach((n) => {
       let point = this.point(n);
       let distance = point.p.subtract(pos).magnitude();
 
@@ -510,7 +510,7 @@ export class ForceDirectedLayout {
     let bottomleft = new Vector(1000,1000);
     let topright = new Vector(-1000,-1000);
 
-    this.eachNode(function(n, point) {
+    this.eachNode((n, point) => {
       if (point.p.x < bottomleft.x) {
         bottomleft.x = point.p.x;
       }

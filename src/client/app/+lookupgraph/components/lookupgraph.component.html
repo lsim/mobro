@@ -1,0 +1,11 @@
+<form (submit)="lookupEntity(searchString)"
+      class="query-form">
+  <autocomplete [(value)]="searchString"
+                [options]="allTypes"
+                placeholder="<type to look up> (try 'BPLA' or 'ExMPLA')"
+                class="autocomplete"></autocomplete>
+  <button type="submit">Look up</button>
+</form>
+<div class="entity_canvas">
+  <typegraph class="typegraph" [modelTypes]="modelTypes"></typegraph>
+</div>

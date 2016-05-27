@@ -8,7 +8,7 @@ import 'rxjs/Rx';
 //import 'rxjs/add/operator/*';
 
 if ('<%= ENV %>' === 'prod') { enableProdMode(); }
-
+enableProdMode(); // To see if this fixes the memory leaks (it does)
 bootstrap(AppComponent, [
   ROUTER_PROVIDERS,
   JSONP_PROVIDERS,
