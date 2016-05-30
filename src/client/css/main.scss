@@ -1,3 +1,5 @@
+@import './material-palette';
+
 /* Reset */
 html,
 body,
@@ -35,17 +37,17 @@ li {
 }
 
 input {
-  border: 1px solid #106cc8;
+  border: 1px solid palette(Blue);
   font-size: 14px;
   height: 40px;
   outline: none;
   padding: 8px;
 }
 
-button {
-  background-color: #106cc8;
+button, .button {
+  background-color: palette(Blue);
   border-style: none;
-  color: rgba(255, 255, 255, 0.87);
+  color: white;
   cursor: pointer;
   display: inline-block;
   font-size: 14px;
@@ -56,5 +58,5 @@ button {
 }
 
 button:hover {
-  background-color: #28739e;
+  background-color: palette(Light Blue);
 }

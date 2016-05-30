@@ -1,0 +1,4 @@
+<div class="switch">
+  <input [attr.id]="randomId" class="toggle toggle-yes-no" type="checkbox" [ngModel]="checkedState" (ngModelChange)="onStateChange($event)">
+  <label [attr.for]="randomId" [attr.data-on]="textOn" [attr.data-off]="textOff"></label>
+</div>

@@ -1,3 +1,5 @@
+@import '../../../../css/material-palette';
+
 $zOffset: 10000;
 
 :host {
@@ -30,7 +32,7 @@ $zOffset: 10000;
     top: 100%;
     padding: 0;
     margin: 0;
-
+    border: 1px solid black;
 
     background-color: white;
 
@@ -44,7 +46,7 @@ $zOffset: 10000;
       line-height: 20px;
 
       &.selected {
-        background-color: gray;
+        background-color: palette(Light Blue);
       }
     }
   }

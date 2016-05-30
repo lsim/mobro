@@ -16,23 +16,25 @@
             refY="3"
             orient="auto"
             markerUnits="strokeWidth"
-            stroke="blue"
-            fill="blue">
+            stroke="#106cc8"
+            fill="#106cc8">
       <path d="M0,0 L0,6 L9,3 z"></path>
     </marker>
   </defs>
   <!-- The edges first (under the nodes) TODO: upgrade angular - ngClass is buggy -->
   <line *ngFor="let edge of graph.edges"
-        class="edge edge--{{edge.data.type}}"
-        [ngClass]=""
+        [attr.class]="'edge edge--'+edge.data.type"
         [attr.x1]="edge.data.pos1.x" [attr.y1]="edge.data.pos1.y"
         [attr.x2]="edge.data.pos2.x" [attr.y2]="edge.data.pos2.y"
         [attr.marker-end]="'url('+locationPathname+'#'+edge.data.type+'-arrow)'"></line>
   <!-- Now all the nodes -->
   <g *ngFor="let node of graph.nodes"
      [attr.transform]="node.data.transform"
-     draggable (mousedrag)="node.data.drag($event)" (dragend)="node.data.dragEnd()">
-    <circle [attr.r]="nodeSize/2" class="typegraph__node"></circle>
+     draggable (mousedrag)="node.data.drag($event)" (dragend)="node.data.dragEnd()"
+     (click)="onClick(node, $event)">
+    <circle
+      [attr.r]="nodeSize/2"
+      [attr.class]="'typegraph__node ' + (node.data.isPrimary ? 'typegraph__node--primary' : '')"></circle>
     <text text-anchor="middle">{{node.data.modelType.name}}</text>
   </g>
 </svg>

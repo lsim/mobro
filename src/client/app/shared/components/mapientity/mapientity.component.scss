@@ -1,6 +1,8 @@
-$border: solid 1px #106cc8;
+@import '../../../../css/material-palette';
+
+$border: solid 1px palette(Blue);
 $detailsHeight: 300px;
-$propertyOddColor: #eee;
+$propertyOddColor: palette(White, Secondary Text);
 
 @mixin truncate() {
   white-space: nowrap;
@@ -16,7 +18,7 @@ $propertyOddColor: #eee;
 @mixin linklike() {
   cursor: pointer;
   text-decoration: underline;
-  color: blue;
+  color: palette(Blue);
 }
 
 :host {

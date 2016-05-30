@@ -1,12 +1,18 @@
+@import '../../../../css/material-palette';
+
 :host {
 
   position: relative;
   display: block;
 
-  background-color: #eaeaea;
+  background-color: palette(Grey);
 
   .typegraph__node {
     fill: white;
+
+    &--primary {
+      fill: palette(Orange);
+    }
   }
 
   circle {
@@ -24,7 +30,7 @@
 
     &--aggregation {
       stroke-dasharray: 2, 6;
-      stroke: blue;
+      stroke: palette(Blue);
     }
 
     &--inheritance {

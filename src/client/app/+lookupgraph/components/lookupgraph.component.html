@@ -1,11 +1,28 @@
 <form (submit)="lookupEntity(searchString)"
-      class="query-form">
+      class="lookupgraph__query-form">
   <autocomplete [(value)]="searchString"
                 [options]="allTypes"
                 placeholder="<type to look up> (try 'BPLA' or 'ExMPLA')"
-                class="autocomplete"></autocomplete>
+                class="lookupgraph__query-form__autocomplete"></autocomplete>
   <button type="submit">Look up</button>
+  <togglebutton
+    class="lookupgraph__query-form__aggregation-toggle"
+    #aggregations
+    [checkedState]="typegraph.showAggregations"
+    textOn="Aggregations" textOff="No aggregations"></togglebutton>
+  <togglebutton
+    class="lookupgraph__query-form__inheritance-toggle"
+    #inheritance
+    [checkedState]="typegraph.showInheritance"
+    textOn="Inheritance" textOff="No inheritance"></togglebutton>
 </form>
 <div class="entity_canvas">
-  <typegraph class="typegraph" [modelTypes]="modelTypes"></typegraph>
+  <typegraph
+    #typegraph
+    class="typegraph"
+    [modelTypes]="modelTypes"
+    [showAggregations]="aggregations.checkedState"
+    [showInheritance]="inheritance.checkedState"
+    (nodeClicked)="modelTypeClicked($event)"
+  ></typegraph>
 </div>

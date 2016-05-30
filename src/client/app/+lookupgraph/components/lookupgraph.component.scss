@@ -1,15 +1,22 @@
-:host {
+.lookupgraph {
   display: flex;
   flex-direction: column;
 
-  .query-form {
+  &__query-form {
     display: flex;
     width: 100%;
 
-    .autocomplete {
+    &__autocomplete {
       display: flex;
       width: 100%;
     }
+    &__aggregation-toggle {
+      width: 10em;
+    }
+    &__inheritance-toggle {
+      width: 10em;
+    }
+
   }
 
   .entity_canvas {

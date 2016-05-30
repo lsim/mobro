@@ -1,0 +1,57 @@
+@import '../../../../css/main';
+@import '../../../../css/material-palette';
+
+:host {
+  height: 40px;
+  .toggle {
+    position: absolute;
+    margin-left: -9999px;
+    visibility: hidden;
+  }
+  .toggle + label {
+    display: block;
+    position: relative;
+    cursor: pointer;
+    outline: none;
+    user-select: none;
+    width: 100%;
+  }
+  input {
+    margin: -10px;
+  }
+  input.toggle-yes-no + label {
+    @extend .button;
+    line-height: 40px;
+    background-color: transparent;
+  }
+  input.toggle-yes-no + label:before,
+  input.toggle-yes-no + label:after {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    color: white;
+    text-align: center;
+  }
+  input.toggle-yes-no + label:before {
+    background-color: palette(Grey);
+    content: attr(data-off);
+    transition: transform 0.5s;
+    backface-visibility: hidden;
+  }
+  input.toggle-yes-no + label:after {
+    background-color: palette(Light Green);
+    content: attr(data-on);
+    transition: transform 0.5s;
+    transform: rotateY(180deg);
+    backface-visibility: hidden;
+  }
+  input.toggle-yes-no:checked + label:before {
+    transform: rotateY(180deg);
+  }
+  input.toggle-yes-no:checked + label:after {
+    transform: rotateY(0deg);
+  }
+}
