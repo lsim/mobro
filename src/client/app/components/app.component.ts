@@ -15,7 +15,7 @@ import {LookupGraphComponent} from '../+lookupgraph/index';
 })
 @RouteConfig([
   {
-    path: '/',
+    path: '/lookup',
     name: 'Lookup',
     component: LookupComponent
   },
@@ -25,7 +25,7 @@ import {LookupGraphComponent} from '../+lookupgraph/index';
     component: AboutComponent
   },
   {
-    path: '/graph',
+    path: '/',
     name: 'LookupGraph',
     component: LookupGraphComponent
   }
