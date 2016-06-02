@@ -16,13 +16,18 @@
     [checkedState]="typegraph.showInheritance"
     textOn="Inheritance" textOff="No inheritance"></togglebutton>
 </form>
-<div class="entity_canvas">
+<div class="lookupgraph__entity-canvas">
   <typegraph
     #typegraph
-    class="typegraph"
+    class="lookupgraph__entity-canvas__typegraph"
     [modelTypes]="modelTypes"
     [showAggregations]="aggregations.checkedState"
     [showInheritance]="inheritance.checkedState"
     (nodeClicked)="modelTypeClicked($event)"
   ></typegraph>
+  <mapientity *ngFor="let modelType of modelTypes, let idx = index"
+              [modelType]="modelType"
+              (remove)="toggleTypeInCollection(modelType)"
+              (navigate)="toggleTypeInCollection($event)"
+              class="lookupgraph__entity-canvas__model-type"></mapientity>
 </div>

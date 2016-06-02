@@ -31,6 +31,15 @@ export class LookupGraphComponent {
     });
   }
 
+  addTypeByName(name: string): ModelType {
+    console.debug('addTypeByName', name);
+    const newModelType = this.typeMap[name];
+    if(newModelType) {
+      this.addTypeToCollection(newModelType);
+    }
+    return newModelType;
+  }
+
   addTypeToCollection(modelType: ModelType) {
     if(modelType && this.modelTypes.indexOf(modelType) < 0) {
       this.modelTypes.push(modelType);
@@ -49,12 +58,9 @@ export class LookupGraphComponent {
   }
 
   lookupEntity(query: string) {
-    let newModelType = this.typeMap[query];
-    if(!query) {
-      return;
+    if(this.addTypeByName(query)) {
+      this.searchString = '';
     }
-    this.searchString = '';
-    this.addTypeToCollection(newModelType);
   }
 
   modelTypeClicked({ modelType: modelType, event: event }: {modelType: ModelType, event: MouseEvent}) {
