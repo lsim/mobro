@@ -1,51 +1,59 @@
 @import '../../../../css/material-palette';
 
+$aggregationColor: palette(Red);
+$inheritanceColor: black;
+$primaryNodeColor: palette(Orange);
+$secondaryNodeColor: palette(Green);
+
 :host {
 
   position: relative;
-  display: block;
+  display: flex;
 
-  background-color: palette(Grey);
+  .typegraph__canvas {
+    width: 100%;
 
-  .aggregation_arrow {
-    stroke: white;
-    fill: white;
-  }
-
-  .inheritance_arrow {
-    stroke: black;
-    fill: black;
-  }
-
-  .typegraph__node {
-    fill: white;
-
-    &--primary {
-      fill: palette(Orange);
-    }
-  }
-
-  circle {
-    cursor: pointer;
-  }
-
-  text {
-    dominant-baseline: middle;
-    cursor: pointer;
-  }
-
-  .edge {
-    stroke-width: 2;
-
-    &--aggregation {
-      @extend .aggregation_arrow;
-      stroke-dasharray: 2, 6;
+    .aggregation_arrow {
+      stroke: $aggregationColor;
+      fill: $aggregationColor;
     }
 
-    &--inheritance {
-      @extend .inheritance_arrow;
-      stroke: black;
+    .inheritance_arrow {
+      stroke: $inheritanceColor;
+      fill: $inheritanceColor;
+    }
 
+    .typegraph__node {
+      stroke: $secondaryNodeColor;
+      fill: white;
+      stroke-width: 3;
+
+      &--primary {
+        stroke: $primaryNodeColor;
+      }
+    }
+
+    circle {
+      cursor: pointer;
+    }
+
+    text {
+      dominant-baseline: middle;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .edge {
+      stroke-width: 2;
+
+      &--aggregation {
+        @extend .aggregation_arrow;
+        stroke-dasharray: 2, 6;
+      }
+
+      &--inheritance {
+        @extend .inheritance_arrow;
+      }
     }
   }
 }
