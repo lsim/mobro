@@ -7,6 +7,16 @@
 
   background-color: palette(Grey);
 
+  .aggregation_arrow {
+    stroke: white;
+    fill: white;
+  }
+
+  .inheritance_arrow {
+    stroke: black;
+    fill: black;
+  }
+
   .typegraph__node {
     fill: white;
 
@@ -25,15 +35,16 @@
   }
 
   .edge {
-    stroke: black;
     stroke-width: 2;
 
     &--aggregation {
+      @extend .aggregation_arrow;
       stroke-dasharray: 2, 6;
-      stroke: palette(Blue);
     }
 
     &--inheritance {
+      @extend .inheritance_arrow;
+      stroke: black;
 
     }
   }

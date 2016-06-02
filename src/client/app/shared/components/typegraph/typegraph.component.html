@@ -15,13 +15,12 @@
             refX="20"
             refY="3"
             orient="auto"
-            markerUnits="strokeWidth"
-            stroke="#106cc8"
-            fill="#106cc8">
-      <path d="M0,0 L0,6 L9,3 z"></path>
+            markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z"
+            class="aggregation_arrow"></path>
     </marker>
   </defs>
-  <!-- The edges first (under the nodes) TODO: upgrade angular - ngClass is buggy -->
+  <!-- The edges first (under the nodes) -->
   <line *ngFor="let edge of graph.edges"
         [attr.class]="'edge edge--'+edge.data.type"
         [attr.x1]="edge.data.pos1.x" [attr.y1]="edge.data.pos1.y"

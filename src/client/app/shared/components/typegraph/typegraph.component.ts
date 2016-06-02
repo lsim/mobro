@@ -42,32 +42,43 @@ export class TypeGraphComponent implements OnChanges {
     this.locationPathname = location.pathname;
   }
 
+  addAggregationsForType(modelType: ModelType) {
+    modelType.properties.forEach((property) => {
+      if (property.referencedType) {
+        this.addModelType(property.referencedType, false);
+        this.addEdgeBetweenTypes(modelType, property.referencedType, 'aggregation');
+      }
+    });
+  }
+
+  recursiveNodeRender(modelType: ModelType, isPrimary: boolean, childType: ModelType) {
+    this.addModelType(modelType, isPrimary);
+    if(this.showInheritance) {
+      if(childType) {
+        this.addEdgeBetweenTypes(childType, modelType, 'inheritance');
+      }
+      if(modelType.superType) {
+        this.recursiveNodeRender(modelType.superType, false, modelType);
+      }
+    }
+    if(this.showAggregations) {
+      this.addAggregationsForType(modelType);
+    }
+  }
+
   renderGraphFromNodes(primaryTypes: Array<ModelType>) {
     this.clearGraph();
     primaryTypes.forEach((modelType) => {
-      this.addModelType(modelType, true);
-      if(this.showAggregations) {
-        modelType.properties.forEach((property) => {
-          if (property.referencedType) {
-            this.addModelType(property.referencedType, false);
-          }
-        });
-      }
-      if(this.showInheritance) {
-        modelType.ancestors.forEach((ancestor) => this.addModelType(ancestor, false));
-      }
+      this.recursiveNodeRender(modelType, true, null);
     });
-    this.createEdgesForModelTypes(this.showAggregations, this.showInheritance);
     this.renderer.start();
   }
 
   clearGraph() {
     this.graph.filterEdges((e) => false);
     this.graph.filterNodes((e) => false);
-    console.debug(`Graph cleared ${this.graph.nodes.length} nodes left, ${this.graph.edges.length} edges left`)
   }
 
-  //TODO: make a more efficient edge lookup to speed up dragging
   edgeLookup(nodeId: string): {inbound: Array<Edge>, outbound: Array<Edge>} {
     const result = { inbound: <Array<Edge>>[], outbound: <Array<Edge>>[] };
     for(let edge of this.graph.edges) {
@@ -122,14 +133,22 @@ export class TypeGraphComponent implements OnChanges {
     });
   }
 
-  addEdgeBetweenNodes(node1: ANode, node2: ANode, type: String) {
+  addEdgeBetweenTypes(type1: ModelType, type2: ModelType, edgeType: string) {
+    const node1 = <ANode>this.graph.nodeSet[type1.name];
+    const node2 = <ANode>this.graph.nodeSet[type2.name];
+    if(node1 && node2) {
+      this.addEdgeBetweenNodes(node1, node2, edgeType);
+    }
+  }
+
+  addEdgeBetweenNodes(node1: ANode, node2: ANode, edgeType: String) {
     const id = `${node1.data.modelType.name}->${node2.data.modelType.name}`;
     const existingEdges = this.graph.getEdges(node1, node2);
     if(existingEdges.length > 0) {
       console.debug('Edge already in the model', id);
       return;
     }
-    const edge: AnEdge = new Edge(id, node1, node2, new EdgeData(type));
+    const edge: AnEdge = new Edge(id, node1, node2, new EdgeData(edgeType));
     this.graph.addEdge(edge);
   }
 
