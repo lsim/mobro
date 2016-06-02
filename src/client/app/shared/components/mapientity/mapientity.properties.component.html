@@ -5,8 +5,8 @@
       <span class="entity_property_name">
         {{property.name}}: <!--
         --><span *ngIf="property.isNullable" class="entity_property_flag" title="Nullable">[?]</span><!--
-        --><span *ngIf="property.notNull" class="entity_property_flag" title="Not null">[!]</span><!--
-        --><span *ngIf="property.immutable" class="entity_property_flag" title="Immutable">[∞]</span>
+        --><span *ngIf="property.isNotNull" class="entity_property_flag" title="Not null">[!]</span><!--
+        --><span *ngIf="property.isImmutable" class="entity_property_flag" title="Immutable">[∞]</span>
       </span>
       <span class="entity_property_type"
             [ngClass]="{entity_property_type_navigation: property.referencedType}"

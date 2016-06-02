@@ -92,7 +92,7 @@ let propertyMapper: any = {
 export class ModelProperty {
   name: string;
   isNullable: boolean;
-  isNonNull: boolean;
+  isNotNull: boolean;
   isImmutable: boolean;
   description: string;
   referencedType: ModelType;
@@ -101,7 +101,7 @@ export class ModelProperty {
   constructor(rawProp: IRawModelProperty, typeLookup: (s: string) => ModelType) {
     this.name = rawProp.propertyName;
     this.isNullable = rawProp.attributes.indexOf('Nullable') >= 0;
-    this.isNonNull = rawProp.attributes.indexOf('NonNull') >= 0;
+    this.isNotNull = rawProp.attributes.indexOf('NotNull') >= 0;
     this.isImmutable = rawProp.attributes.indexOf('Immutable') >= 0;
     this.type = rawProp.type;
 
