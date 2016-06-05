@@ -27,6 +27,11 @@
         [attr.x1]="edge.data.pos1.x" [attr.y1]="edge.data.pos1.y"
         [attr.x2]="edge.data.pos2.x" [attr.y2]="edge.data.pos2.y"
         [attr.marker-end]="'url('+locationPathname+'#'+edge.data.type+'-arrow)'"></line>
+  <!-- all edge labels -->
+  <text *ngFor="let edge of graph.edges"
+        text-anchor="middle"
+        [attr.x]="edge.data.labelPos.x"
+        [attr.y]="edge.data.labelPos.y">{{edge.data.label}}</text>
   <!-- Now all the nodes -->
   <g *ngFor="let node of graph.nodes"
      [attr.transform]="node.data.transform"

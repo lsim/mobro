@@ -67,6 +67,6 @@ export class LookupGraphComponent {
     if(event.detail === 2) { // double click
       this.toggleTypeInCollection(modelType);
     }
-    console.debug('modelTypeClicked', modelType, event);
+    //console.debug('modelTypeClicked', modelType, event);
   }
 }

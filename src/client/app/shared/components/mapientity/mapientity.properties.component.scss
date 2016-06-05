@@ -17,7 +17,9 @@
     }
 
     .entity_property_name {
-      @include truncate()
+      @include truncate();
+      display: flex;
+      align-items: center;
     }
 
     .entity_property_flag {
@@ -31,9 +33,7 @@
       @include truncate();
 
       &_navigation {
-        cursor: pointer;
-        text-decoration: underline;
-        color: blue;
+        @include linklike();
       }
     }
   }}

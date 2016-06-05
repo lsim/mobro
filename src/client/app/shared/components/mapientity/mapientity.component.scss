@@ -1,4 +1,5 @@
 @import '../../../../css/material-palette';
+@import '../../../../css/main';
 
 $border: solid 1px palette(Blue);
 $detailsHeight: 300px;
@@ -31,6 +32,7 @@ $propertyOddColor: palette(White, Secondary Text);
   .entity_header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     white-space: nowrap;
 
     border-bottom: $border;
@@ -47,7 +49,10 @@ $propertyOddColor: palette(White, Secondary Text);
     }
 
     .entity_remove_link {
+      @include icon-mixin(cancel);
       @include linklike();
+      background-color: palette(Red);
+
     }
   }
 
