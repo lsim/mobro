@@ -19,6 +19,5 @@ export class ToggleButtonComponent {
   onStateChange(newState: boolean) {
     this.checkedState = newState;
     this.checkedStateChange.emit(newState);
-    console.debug('onStateChange', newState);
   }
 }

@@ -32,7 +32,6 @@ export class LookupGraphComponent {
   }
 
   addTypeByName(name: string): ModelType {
-    console.debug('addTypeByName', name);
     const newModelType = this.typeMap[name];
     if(newModelType) {
       this.addTypeToCollection(newModelType);
