@@ -33,13 +33,16 @@ $secondaryNodeColor: palette(Green);
       }
     }
 
+    &__node-label {
+      cursor: pointer;
+    }
+
     circle {
       cursor: pointer;
     }
 
     text {
       dominant-baseline: middle;
-      cursor: pointer;
       user-select: none;
     }
 

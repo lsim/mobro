@@ -1,7 +1,7 @@
 import {Component,Input,Output,EventEmitter,OnChanges,SimpleChange} from 'angular2/core';
 import {CORE_DIRECTIVES} from 'angular2/common';
 import {Renderer, Node, Edge, ForceDirectedLayout, Graph, Vector, BoundingBox} from './springy';
-import {ModelType, ModelProperty} from '../../index';
+import {ModelType} from '../../index';
 import {DraggableDirective} from '../draggable/draggable.directive';
 //import * as _ from 'lodash';
 
@@ -30,8 +30,8 @@ export class TypeGraphComponent implements OnChanges {
 
   constructor() {
     this.graph = new Graph();
-    this.layout = new ForceDirectedLayout(this.graph, 1000, 100, 0.5, 2);
-    this.renderer = new Renderer(this.layout, () => {;}, this.drawEdge, this.drawNode, this.onRenderStop, this.onRenderStart);
+    this.layout = new ForceDirectedLayout(this.graph, 1000, 100, 0.2, 2);
+    this.renderer = new Renderer(this.layout, this.clear, this.drawEdge, this.drawNode, this.onRenderStop, this.onRenderStart);
   }
 
   ngOnChanges(changes: {[propertyName: string]: SimpleChange}) {
@@ -55,7 +55,7 @@ export class TypeGraphComponent implements OnChanges {
     this.addModelType(modelType, isPrimary);
     if(this.showInheritance) {
       if(childType) {
-        this.addEdgeBetweenTypes(childType, modelType, 'inheritance', "");
+        this.addEdgeBetweenTypes(childType, modelType, 'inheritance', '');
       }
       if(modelType.superType) {
         this.recursiveNodeRender(modelType.superType, false, modelType);
@@ -93,45 +93,26 @@ export class TypeGraphComponent implements OnChanges {
   }
 
   addModelType(modelType: ModelType, isPrimary: boolean) {
-    const existingNode = this.graph.nodeSet[modelType.name];
+    const existingNode: Node = this.graph.nodeSet[modelType.name];
     if(this.graph.nodeSet[modelType.name] !== undefined) {
       existingNode.data.isPrimary |= <any>isPrimary;
-      console.debug('ModelType already in the graph', modelType.name);
       return;
     }
     const nodeData = new NodeData(
       modelType,
       (nodeId) => this.edgeLookup(nodeId),
-      isPrimary
+      isPrimary,
+      (newPos: Vector) => {
+        let point = this.layout.nodePoints[modelType.name];
+        if(point) {
+          point.p = this.toGraphCoordinates(newPos);
+          this.renderer.start();
+        }
+      }
     );
     const node: ANode = new Node(modelType.name, nodeData);
     this.graph.addNode(node);
   }
-
-  //createEdgesForModelTypes(includeAggregations: boolean, includeInheritance: boolean) {
-  //  this.layout.eachNode((node: ANode, p: any) => {
-  //    const modelType = node.data.modelType;
-  //    if(includeInheritance && modelType.superType) {
-  //      const superTypeNode = this.graph.nodeSet[modelType.superType.name];
-  //      if(superTypeNode) {
-  //        this.addEdgeBetweenNodes(node, superTypeNode, 'inheritance');
-  //      }
-  //    }
-  //    const addEdgeToType = (modelType: ModelType, type: string) => {
-  //      const typeNode = this.graph.nodeSet[modelType.name];
-  //      if(typeNode) {
-  //        this.addEdgeBetweenNodes(node, typeNode, type);
-  //      }
-  //    };
-  //    if(includeAggregations) {
-  //      modelType.properties.forEach((prop: ModelProperty) => {
-  //        if(prop.referencedType) {
-  //          addEdgeToType(prop.referencedType, 'aggregation');
-  //        }
-  //      });
-  //    }
-  //  });
-  //}
 
   addEdgeBetweenTypes(type1: ModelType, type2: ModelType, edgeType: string, edgeLabel: string) {
     const node1 = <ANode>this.graph.nodeSet[type1.name];
@@ -145,7 +126,6 @@ export class TypeGraphComponent implements OnChanges {
     const id = `${node1.data.modelType.name}->${node2.data.modelType.name}`;
     const existingEdges = this.graph.getEdges(node1, node2);
     if(existingEdges.length > 0) {
-      console.debug('Edge already in the model', id);
       return;
     }
     const edge: AnEdge = new Edge(id, node1, node2, new EdgeData(edgeType, edgeLabel));
@@ -153,7 +133,8 @@ export class TypeGraphComponent implements OnChanges {
   }
 
   toUICoordinates(v: Vector): Vector {
-    let bb = this.layout.getBoundingBox(); //TODO: don't do this more than once per simulation pass
+    let bb = this.boundingBox;
+
     let bbSize = bb.topRight.subtract(bb.bottomLeft);
     if(bbSize.magnitude() === 0) { // Prevent divide by zero problem when there's only one node
       return new Vector(this.nodeSize, this.nodeSize);
@@ -166,6 +147,16 @@ export class TypeGraphComponent implements OnChanges {
 
     return new Vector(sx, sy);
   }
+  toGraphCoordinates(v: Vector) {
+    let bb = this.boundingBox;
+    let bbSize = bb.topRight.subtract(bb.bottomLeft);
+    let uiWidth = this.canvas.width;
+    let uiHeight = this.canvas.height;
+
+    let sx = v.x/uiWidth * bbSize.x + bb.bottomLeft.x;
+    let sy = v.y/uiHeight * bbSize.y + bb.bottomLeft.y;
+    return new Vector(sx, sy);
+  }
 
   onClick(node: Node, event: MouseEvent) {
     if(node.data.dragOffset.magnitude() === 0) {
@@ -175,6 +166,9 @@ export class TypeGraphComponent implements OnChanges {
   }
 
   // Callbacks for the rendering (capture the 'this' on declaration)
+  clear = () => {
+    this.boundingBox = this.layout.getBoundingBox();
+  };
   drawEdge = (edge: AnEdge, pos1: Vector, pos2: Vector) => {
     edge.data.pos1 = this.toUICoordinates(pos1);
     edge.data.pos2 = this.toUICoordinates(pos2);
@@ -187,8 +181,6 @@ export class TypeGraphComponent implements OnChanges {
   };
   onRenderStart = () => {
     console.time('render');
-    this.boundingBox = this.layout.getBoundingBox();
-
   };
   onRenderStop = () => {
     console.timeEnd('render');
@@ -228,7 +220,8 @@ class NodeData {
   constructor(
     public modelType: ModelType,
     public edgeLookup: (nodeId: string) => ({inbound: Array<Edge>, outbound: Array<Edge>}),
-    public isPrimary: boolean) {}
+    public isPrimary: boolean,
+    public onPositionChange: (newPos: Vector) => void) {}
 
   drag(pos: {x: number, y: number}) {
     this.dragOffset = new Vector(pos.x,pos.y);
@@ -238,6 +231,7 @@ class NodeData {
     this.pos = this.pos.add(this.dragOffset);
     this.dragOffset = new Vector(0,0);
     this.updateTransform();
+    this.onPositionChange(this.pos);
   }
   updateTransform() {
     const p = this.pos.add(this.dragOffset);

@@ -40,6 +40,6 @@
     <circle
       [attr.r]="nodeSize/2"
       [attr.class]="'typegraph__node ' + (node.data.isPrimary ? 'typegraph__node--primary' : '')"></circle>
-    <text text-anchor="middle">{{node.data.modelType.name}}</text>
+    <text text-anchor="middle" class="typegraph__canvas__node-label">{{node.data.modelType.name}}</text>
   </g>
 </svg>
