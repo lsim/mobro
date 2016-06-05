@@ -77,6 +77,8 @@ export class TypeGraphComponent implements OnChanges {
   clearGraph() {
     this.graph.filterEdges((e) => false);
     this.graph.filterNodes((e) => false);
+    this.layout.nodePoints = {};
+    this.layout.edgeSprings = {};
   }
 
   edgeLookup(nodeId: string): {inbound: Array<Edge>, outbound: Array<Edge>} {
