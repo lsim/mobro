@@ -119,6 +119,10 @@ export class SeedConfig {
     'bb >= 10'
   ];
 
+  POSTCSS_INLINE_SVG_CONF: any = {
+    path: this.ASSETS_SRC
+  };
+
   browserSyncProxyConfig = {
     target: 'http://cis-latest:8081',
     changeOrigin: true,

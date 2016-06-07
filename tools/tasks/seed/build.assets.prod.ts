@@ -20,6 +20,7 @@ export = () => {
       '!' + join(APP_SRC, '**', '*.ts'),
       '!' + join(APP_SRC, '**', '*.scss'),
       '!' + join(APP_SRC, '**', '*.html'),
+      '!' + join(APP_SRC, '**', '*.svg'),
       '!' + join(ASSETS_SRC, '**', '*.js')
     ])
     .pipe(onlyDirs(es))
