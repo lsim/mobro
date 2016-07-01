@@ -25,4 +25,4 @@ export = () => {
     ])
     .pipe(onlyDirs(es))
     .pipe(gulp.dest(APP_DEST));
-}
+};

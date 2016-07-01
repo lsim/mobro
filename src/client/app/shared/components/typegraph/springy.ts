@@ -537,11 +537,12 @@ export interface BoundingBox {
 
   // Vector
 export class Vector {
-  constructor(public x:number, public y:number) {
-  }
 
   static random() {
     return new Vector(10.0 * (Math.random() - 0.5), 10.0 * (Math.random() - 0.5));
+  }
+
+  constructor(public x:number, public y:number) {
   }
 
   add(v2: Vector) {
@@ -606,6 +607,11 @@ export class Spring {
  * @param onRenderStart optional callback function that gets executed whenever rendering starts.
  */
 export class Renderer {
+
+  graphChanged = _.debounce(() => {
+    this.start();
+  }, 50);
+
   constructor(public layout: ForceDirectedLayout,
               public clear: () => void,
               public drawEdge: (edge: Edge, pos1: Vector, pos2: Vector) => void,
@@ -614,10 +620,6 @@ export class Renderer {
               public onRenderStart: () => void) {
     this.layout.graph.addGraphListener(this);
   }
-
-  graphChanged = _.debounce(() => {
-    this.start();
-  }, 50);
 
   /**
    * Starts the simulation of the layout in use.
