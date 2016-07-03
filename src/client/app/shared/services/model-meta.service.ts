@@ -24,7 +24,6 @@ export class ModelMetaService {
   }
 
   buildTypeHierarchy(allTypes: Array<IRawModelType>) {
-    console.time("buildTypeHierarchy");
     let modelTypeMap: {[key: string]: ModelType} = {};
     // First a pass to create an object instance for each raw type object
     allTypes.forEach((rawType:IRawModelType) => modelTypeMap[rawType.path] = new ModelType(rawType));
@@ -34,9 +33,8 @@ export class ModelMetaService {
     // Lastly a pass to build ancestor lists and set inbound references
     _.values(modelTypeMap).forEach((modelType: ModelType) => {
       modelType.createAndReturnAncestorList();
-      modelType.setInboundReferences(_.values(modelTypeMap));
+      modelType.setInboundReferences(<Array<ModelType>>_.values(modelTypeMap));
     });
-    console.timeEnd("buildTypeHierarchy");
     return modelTypeMap;
   }
 
