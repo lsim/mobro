@@ -11,6 +11,7 @@ import {LookupGraphComponent} from '../+lookupgraph/index';
   selector: 'mb-app',
   viewProviders: [ModelMetaService],
   templateUrl: 'app/components/app.component.html',
+  styleUrls: ['app/components/app.component.css'],
   directives: [ROUTER_DIRECTIVES, NavbarComponent, ToolbarComponent]
 })
 @RouteConfig([

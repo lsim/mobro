@@ -2,7 +2,6 @@
 @import '../../../../css/main';
 
 $border: solid 1px palette(Blue);
-$detailsHeight: 300px;
 $propertyOddColor: palette(White, Secondary Text);
 
 @mixin truncate() {
@@ -57,7 +56,6 @@ $propertyOddColor: palette(White, Secondary Text);
   }
 
   .entity_details {
-    height: $detailsHeight;
     overflow-y: scroll;
     padding: 5px;
 

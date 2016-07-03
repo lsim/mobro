@@ -25,9 +25,11 @@
     [showInheritance]="inheritance.checkedState"
     (nodeClicked)="modelTypeClicked($event)"
   ></typegraph>
-  <mapientity *ngFor="let modelType of modelTypes, let idx = index"
-              [modelType]="modelType"
-              (remove)="toggleTypeInCollection(modelType)"
-              (navigate)="toggleTypeInCollection($event)"
-              class="lookupgraph__entity-canvas__model-type"></mapientity>
+  <div class="lookupgraph__entity-canvas__model-types">
+    <mapientity *ngFor="let modelType of modelTypes, let idx = index"
+                [modelType]="modelType"
+                (remove)="toggleTypeInCollection(modelType)"
+                (navigate)="toggleTypeInCollection($event)"
+                class="lookupgraph__entity-canvas__model-type"></mapientity>
+  </div>
 </div>
