@@ -28,4 +28,12 @@
       <mapientityproperties [modelType]="ancestorType" (navigate)="navigateTo($event)"></mapientityproperties>
     </div>
   </div>
+  <div class="entity_details_inbound_refs">
+    Inbound references:
+    <span *ngIf="modelType.inboundRefs.length == 0">(none)</span>
+    <span *ngFor="let inboundRef of modelType.inboundRefs"
+          (click)="navigateTo(inboundRef.ownerType)"
+          class="inbound_ref">{{inboundRef.ownerType.name}}.{{inboundRef.propName}}, </span>
+  </div>
+
 </div>

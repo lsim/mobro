@@ -24,14 +24,19 @@ export class ModelMetaService {
   }
 
   buildTypeHierarchy(allTypes: Array<IRawModelType>) {
+    console.time("buildTypeHierarchy");
     let modelTypeMap: {[key: string]: ModelType} = {};
     // First a pass to create an object instance for each raw type object
     allTypes.forEach((rawType:IRawModelType) => modelTypeMap[rawType.path] = new ModelType(rawType));
     let typeLookup = (s: string) => <ModelType>modelTypeMap[s];
     // Then a pass to set up references between object instances
     _.values(modelTypeMap).forEach((modelType: ModelType) => modelType.setReferenceProperties(typeLookup));
-    // Lastly a pass to build ancestor lists
-    _.values(modelTypeMap).forEach((modelType: ModelType) => modelType.createAndReturnAncestorList());
+    // Lastly a pass to build ancestor lists and set inbound references
+    _.values(modelTypeMap).forEach((modelType: ModelType) => {
+      modelType.createAndReturnAncestorList();
+      modelType.setInboundReferences(_.values(modelTypeMap));
+    });
+    console.timeEnd("buildTypeHierarchy");
     return modelTypeMap;
   }
 
@@ -131,7 +136,7 @@ export class ModelType {
   attributes: Array<string>;
   rawModelEntity: IRawModelType;
   subtypes: Array<ModelType> = [];
-
+  inboundRefs: Array<InboundReference> = [];
 
   constructor(rawModelEntity: IRawModelType) {
     this.rawModelEntity = rawModelEntity;
@@ -159,7 +164,25 @@ export class ModelType {
     return this.ancestors;
   }
 
+  setInboundReferences(allTypes: Array<ModelType>) {
+    let result: Array<InboundReference> = [];
+    allTypes.forEach((t) => {
+      let newInboundRefs = t.properties
+        .filter((p) => p.referencedType === this)
+        .map((p: ModelProperty) => new InboundReference(p.name, t));
+      if(newInboundRefs.length > 0) {
+        result = result.concat(newInboundRefs);
+      }
+    });
+    this.inboundRefs = result;
+  }
+
+
   addSubtype(type: ModelType) {
     this.subtypes.push(type);
   }
+}
+
+export class InboundReference {
+  constructor(public propName: string, public ownerType: ModelType) {}
 }

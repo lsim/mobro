@@ -76,5 +76,12 @@ $propertyOddColor: palette(White, Secondary Text);
       }
 
     }
+
+    .entity_details_inbound_refs {
+      @include deEmphasize();
+      .inbound_ref {
+        @include linklike();
+      }
+    }
   }
 }

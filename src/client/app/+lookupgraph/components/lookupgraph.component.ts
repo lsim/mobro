@@ -68,4 +68,8 @@ export class LookupGraphComponent {
     }
     //console.debug('modelTypeClicked', modelType, event);
   }
+
+  clearSelection() {
+    this.modelTypes = [];
+  }
 }
