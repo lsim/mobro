@@ -46,7 +46,8 @@ export class TypeGraphComponent implements OnChanges {
     modelType.properties.forEach((property) => {
       if (property.referencedType) {
         this.addModelType(property.referencedType, false);
-        this.addEdgeBetweenTypes(modelType, property.referencedType, 'aggregation', property.name);
+        let edgeLabel = property.name + (property.type === 'collection' ? '+' : '');
+        this.addEdgeBetweenTypes(modelType, property.referencedType, 'aggregation', edgeLabel);
       }
     });
   }
