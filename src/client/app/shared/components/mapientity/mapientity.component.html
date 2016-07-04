@@ -31,9 +31,10 @@
   <div class="entity_details_inbound_refs">
     Inbound references:
     <span *ngIf="modelType.inboundRefs.length == 0">(none)</span>
-    <span *ngFor="let inboundRef of modelType.inboundRefs"
-          (click)="navigateTo(inboundRef.ownerType)"
-          class="inbound_ref">{{inboundRef.ownerType.name}}.{{inboundRef.propName}}, </span>
+    <span *ngFor="let inboundRef of modelType.inboundRefs, let last=last">
+      <span (click)="navigateTo(inboundRef.ownerType)" class="inbound_ref">{{inboundRef.ownerType.name}}.{{inboundRef.propName}}</span><!--
+   --><span *ngIf="!last">,</span>
+    </span>
   </div>
 
 </div>
