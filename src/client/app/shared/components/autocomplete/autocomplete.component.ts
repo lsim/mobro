@@ -19,9 +19,16 @@ export class AutocompleteComponent {
   @Input() value: string;
   @Output() valueChange: EventEmitter<any> = new EventEmitter();
 
+  escapeRegexChars(str: string): string {
+    return str.replace(/\.|\*|\+|\?|\\|\^|\$|\(|\)|\[|\]|\{|\}/g, (regexChar: string) => '\\' + regexChar);
+  }
+
   updateSuggestions() {
     if(this.value) {
-      let camelcaseMatcher = this.value.split('').join('[a-z]*');
+      let camelcaseMatcher = this.value
+        .split('')
+        .map((x:string) => this.escapeRegexChars(x))
+        .join('[a-z]*');
       let regex = new RegExp(camelcaseMatcher);
 
       this.filteredList = this.options

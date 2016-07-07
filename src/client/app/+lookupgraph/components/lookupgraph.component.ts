@@ -20,15 +20,27 @@ import * as _ from 'lodash';
 export class LookupGraphComponent {
 
   allTypes: Array<string>;
+  allProperties: Array<string>;
   typeMap: {[key: string]: ModelType};
-  searchString = '';
+  typeSearchString = '';
+  propSearchString = '';
   modelTypes: Array<ModelType> = [];
 
   constructor(modelMetaService: ModelMetaService) {
     modelMetaService.getFullTypeHierarchy().then((fullTypeHierarchy) => {
       this.typeMap = fullTypeHierarchy;
       this.allTypes = _.keys(fullTypeHierarchy);
+      this.allProperties = this.getAllProperties(fullTypeHierarchy);
     });
+  }
+
+  getAllProperties(typeMap: {[key: string]: ModelType}): Array<string> {
+    let result = [];
+    _.values(typeMap).forEach((type: ModelType) => {
+      result = result.concat(type.properties.map((p) => `${type.name}.${p.name}`));
+    });
+    result.sort();
+    return result;
   }
 
   addTypeByName(name: string): ModelType {
@@ -56,9 +68,17 @@ export class LookupGraphComponent {
     this.modelTypes = this.modelTypes.slice();
   }
 
-  lookupEntity(query: string) {
-    if(this.addTypeByName(query)) {
-      this.searchString = '';
+  lookupEntity() {
+    console.debug(this.typeSearchString, this.propSearchString);
+    if(this.typeSearchString) {
+      if(this.addTypeByName(this.typeSearchString)) {
+        this.typeSearchString = '';
+      }
+    } else if(this.propSearchString) {
+      let typeNameMatch = this.propSearchString.match(/^[^\.]+/);
+      if(typeNameMatch && this.addTypeByName(typeNameMatch[0])) {
+        this.propSearchString = '';
+      }
     }
   }
 

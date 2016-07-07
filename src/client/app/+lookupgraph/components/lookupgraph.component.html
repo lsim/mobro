@@ -1,11 +1,15 @@
-<form (submit)="lookupEntity(searchString)"
+<form (submit)="lookupEntity()"
       class="lookupgraph__query-form">
-  <autocomplete [(value)]="searchString"
+  <autocomplete [(value)]="typeSearchString"
                 [options]="allTypes"
                 placeholder="<type to look up> (try 'BPLA' or 'ExMPLA')"
                 class="lookupgraph__query-form__autocomplete"></autocomplete>
+  <autocomplete [(value)]="propSearchString"
+                [options]="allProperties"
+                placeholder="<property to look for> (try '.Encounter or 'P.E')"
+                class="lookupgraph__query-form__autocomplete"></autocomplete>
   <button type="submit">Look up</button>
-  <button type="button" (click)="clearSelection()">Clear</button>
+  <button type="button" (click)="clearSelection()" class="lookupgraph__query-form__clear-button">Clear</button>
   <togglebutton
     class="lookupgraph__query-form__aggregation-toggle"
     #aggregations
