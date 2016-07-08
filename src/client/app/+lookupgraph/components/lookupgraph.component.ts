@@ -35,7 +35,7 @@ export class LookupGraphComponent {
   }
 
   getAllProperties(typeMap: {[key: string]: ModelType}): Array<string> {
-    let result = [];
+    let result: Array<string> = [];
     _.values(typeMap).forEach((type: ModelType) => {
       result = result.concat(type.properties.map((p) => `${type.name}.${p.name}`));
     });
