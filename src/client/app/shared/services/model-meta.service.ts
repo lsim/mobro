@@ -148,7 +148,25 @@ export class ModelType {
       this.superType.addSubtype(this);
     }
     this.properties = _.values(this.rawModelEntity.fields)
-      .map((rawProp: IRawModelProperty) => new ModelProperty(rawProp, typeLookup)).sort((p1, p2) => p1.name.localeCompare(p2.name));
+      .map((prop: any) => {
+        if(typeof prop.attributes === 'object') { // In berlin and older versions, attributes is an object
+          let attributes: Array<String> = [];
+          for(let fieldName in prop.attributes) {
+            if(fieldName === 'nullable' && prop.attributes[fieldName] === 'true') {
+              attributes.push('Nullable');
+            } else if(fieldName === 'nullable' && prop.attributes[fieldName] === 'false') {
+              attributes.push('NotNull');
+            }
+          }
+          if(_.keys(prop.attributes).length === 0) {
+            attributes.push('Immutable');
+          }
+          prop.attributes = attributes;
+        }
+        return prop;
+      })
+      .map((rawProp: IRawModelProperty) => new ModelProperty(rawProp, typeLookup))
+      .sort((p1, p2) => p1.name.localeCompare(p2.name));
   }
 
   createAndReturnAncestorList(): Array<ModelType> {
