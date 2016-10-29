@@ -129,6 +129,8 @@ export class TypeGraphComponent implements OnChanges {
     const id = `${node1.data.modelType.name}->${node2.data.modelType.name}`;
     const existingEdges = this.graph.getEdges(node1, node2);
     if(existingEdges.length > 0) {
+      const existingEdge = existingEdges[0];
+      existingEdge.data.addLabel(edgeLabel);
       return;
     }
     const edge: AnEdge = new Edge(id, node1, node2, new EdgeData(edgeType, edgeLabel));
@@ -194,7 +196,19 @@ class EdgeData {
   pos1 = new Vector(0,0);
   pos2 = new Vector(0,0);
   labelPos = new Vector(0,0);
-  constructor(public type: String, public label: String) {}
+  labels: Array<string> = [];
+  constructor(public type: String, label: String) {
+    this.addLabel(label);
+  }
+
+  addLabel(label: string) {
+    for(let existingLabel of this.labels) {
+      if(existingLabel === label) {
+        return;
+      }
+    }
+    this.labels.push(label);
+  }
 
   setPos1(pos: Vector) {
     this.pos1 = pos;

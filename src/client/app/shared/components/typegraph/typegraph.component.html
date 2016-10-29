@@ -31,7 +31,10 @@
   <text *ngFor="let edge of graph.edges"
         text-anchor="middle"
         [attr.x]="edge.data.labelPos.x"
-        [attr.y]="edge.data.labelPos.y">{{edge.data.label}}</text>
+        [attr.y]="edge.data.labelPos.y">
+    <tspan *ngFor="let label of edge.data.labels; let first = first"
+           [attr.dy]="first ? '' : '1em'" [attr.dx]="first ? '' : '-5em'">{{label}}</tspan>
+  </text>
   <!-- Now all the nodes -->
   <g *ngFor="let node of graph.nodes"
      [attr.transform]="node.data.transform"
