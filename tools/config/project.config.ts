@@ -32,11 +32,19 @@ export class ProjectConfig extends SeedConfig {
     ];
 
     /* Add to or override NPM module configurations: */
-    // this.mergeObject(this.PLUGIN_CONFIGS['browser-sync'], { ghostMode: false });
+    //this.mergeObject(this.PLUGIN_CONFIGS['browser-sync'], { ghostMode: false });
 
     this.addPackageBundles({name: 'lodash', path: 'node_modules/lodash/lodash.min.js'});
 
     this.ENABLE_SCSS = true;
+
+    let proxyMiddleware = require('http-proxy-middleware')('/api', {
+      target: 'http://localhost:3000',
+      changeOrigin: true,
+      logLevel: 'debug'
+    });
+
+    this.PLUGIN_CONFIGS['browser-sync'].middleware.push(proxyMiddleware);
   }
 
 }

@@ -1,9 +1,9 @@
 {
-  "name": "angular-seed",
+  "name": "mobro",
   "version": "0.0.0",
-  "description": "Modular starter project for Angular 2 (and beyond) with statically typed build and AoT compilation",
+  "description": "Model browser (only a proprietary data source is supported for now)",
   "repository": {
-    "url": "https://github.com/mgechev/angular-seed"
+    "url": "https://github.com/lsim/mobro"
   },
   "scripts": {
     "build.dev": "gulp build.dev --color --env-config dev --config-env dev",
@@ -53,6 +53,7 @@
     "@types/gulp-sass": "^0.0.29",
     "@types/gulp-util": "^3.0.29",
     "@types/jasmine": "^2.5.35",
+    "@types/lodash": "*",
     "@types/node": "^6.0.45",
     "@types/protractor": "^1.5.20",
     "@types/rimraf": "0.0.28",
@@ -61,7 +62,6 @@
     "@types/systemjs": "^0.19.31",
     "@types/yargs": "^0.0.33",
     "@types/zone.js": "^0.0.27",
-    "@types/lodash": "*",
     "async": "^2.1.1",
     "autoprefixer": "^6.5.1",
     "browser-sync": "^2.17.3",
@@ -131,11 +131,12 @@
     "@angular/platform-browser-dynamic": "~2.1.2",
     "@angular/router": "~3.1.2",
     "core-js": "^2.4.1",
+    "http-proxy-middleware": "^0.17.2",
     "intl": "^1.2.5",
+    "lodash": "*",
     "reflect-metadata": "^0.1.8",
     "rxjs": "5.0.0-beta.12",
     "systemjs": "0.19.39",
-    "zone.js": "0.6.25",
-    "lodash": "*"
+    "zone.js": "0.6.25"
   }
 }

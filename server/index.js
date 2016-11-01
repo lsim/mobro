@@ -1,14 +1,10 @@
-/**
- * Created by los on 30/10/2016.
- */
-var express = require('express');
-var app = express();
+'use strict';
 
-app.get('/', function (req, res) {
-  res.send('Hello World!');
-});
+let express = require('express');
+let app = express();
+let router = require('./api/router');
 
-app.use(express.static('../dist'));
+router(app);
 
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!');

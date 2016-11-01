@@ -55,7 +55,7 @@ export class ModelMetaService {
 
   private sendFapiRequest(endpoint: string, ...args: string[]) {
     let argPart = args.length > 0 ? '/' + args.join('/') : '';
-    let url = `/fapi.model.meta/${endpoint}${argPart}`;
+    let url = `/api/${endpoint}${argPart}`;
     return this.http.get(url)
       .map((x: any) => x.json())
       .toPromise()
