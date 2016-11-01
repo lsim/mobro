@@ -1,6 +1,13 @@
+/**
+ * This barrel file provides the exports for the shared resources (services, components).
+ */
+export * from './toolbar/index';
+export * from './config/env.config';
+
 export * from './services/model-meta.service';
-export * from './components/autocomplete/autocomplete.component';
-export * from './components/mapientity/mapientity.component';
-export * from './components/typegraph/typegraph.component';
-export * from './components/draggable/draggable.directive';
-export * from './components/togglebutton/togglebutton.component';
+export * from './autocomplete/autocomplete.component';
+export * from './mapientity/mapientity.component';
+export * from './mapientity/mapientity.properties.component';
+export * from './typegraph/typegraph.component';
+export * from './draggable/draggable.directive';
+export * from './togglebutton/togglebutton.component';

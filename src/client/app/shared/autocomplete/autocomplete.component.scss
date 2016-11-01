@@ -1,0 +1,53 @@
+@import '../../../css/material-palette';
+
+$zOffset: 10000;
+
+:host {
+  display: flex;
+  position: relative;
+
+  .click-overlay {
+    opacity: 0.5;
+    background-color: white;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: $zOffset;
+  }
+
+  .query-input {
+    z-index: $zOffset + 1;
+    display: flex;
+    position: relative; /*to get z-index to work*/
+    width: 100%;
+  }
+
+  .suggestions {
+    z-index: $zOffset + 1;
+    display: inline-block; /*to get width by content*/
+    position: absolute;
+    left: 0;
+    top: 100%;
+    padding: 0;
+    margin: 0;
+    border: 1px solid black;
+
+    background-color: white;
+
+
+    li {
+      list-style: none;
+      cursor: pointer;
+      border-bottom: 1px solid;
+      margin: 0;
+      padding: 3px;
+      line-height: 20px;
+
+      &.selected {
+        background-color: palette(Light Blue);
+      }
+    }
+  }
+}

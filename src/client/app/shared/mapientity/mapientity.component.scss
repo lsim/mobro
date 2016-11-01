@@ -1,0 +1,87 @@
+@import '../../../css/material-palette';
+@import '../../../css/main';
+
+$border: solid 1px palette(Blue);
+$propertyOddColor: palette(White, Secondary Text);
+
+@mixin truncate() {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@mixin deEmphasize() {
+  font-size: 80%;
+  font-style: italic;
+}
+
+@mixin linklike() {
+  cursor: pointer;
+  text-decoration: underline;
+  color: palette(Blue);
+}
+
+:host {
+  border: $border;
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+  margin: 5px;
+
+  .entity_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    white-space: nowrap;
+
+    border-bottom: $border;
+    padding: 5px;
+
+    .entity_header_name {
+      font-weight: bold;
+    }
+    .entity_header_superclass {
+      @include deEmphasize();
+      .entity_header_superclass_name {
+        @include linklike();
+      }
+    }
+
+    .entity_remove_link {
+      @include icon-mixin(cancel);
+      @include linklike();
+      background-color: palette(Red);
+
+    }
+  }
+
+  .entity_details {
+    overflow-y: scroll;
+    padding: 5px;
+
+    .entity_details_inheritors {
+      @include deEmphasize();
+      .entity_details_inheritors_inheritor {
+        @include linklike();
+      }
+    }
+
+    .entity_details_properties {
+
+      .entity_property_header {
+        @include deEmphasize();
+        .entity_property_header_link {
+          @include linklike();
+        }
+      }
+
+    }
+
+    .entity_details_inbound_refs {
+      @include deEmphasize();
+      .inbound_ref {
+        @include linklike();
+      }
+    }
+  }
+}
