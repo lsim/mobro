@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Http} from '@angular/http';
+import {Http, Headers, RequestOptions} from '@angular/http';
 import 'rxjs/Rx';
 import * as _ from 'lodash';
 
@@ -7,6 +7,7 @@ import * as _ from 'lodash';
 export class ModelMetaService {
 
   allTypes: Array<IRawModelType>;
+  currentUrl = 'http://cis47:8081/fapi.model.meta/all'; // TODO: default to something else
 
   constructor(private http: Http) {
   }
@@ -56,10 +57,18 @@ export class ModelMetaService {
   private sendFapiRequest(endpoint: string, ...args: string[]) {
     let argPart = args.length > 0 ? '/' + args.join('/') : '';
     let url = `/api/${endpoint}${argPart}`;
-    return this.http.get(url)
+
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.post(url, {target: this.currentUrl}, options)
       .map((x: any) => x.json())
       .toPromise()
-      .catch(error => console.debug(`Request for ${url} failed with error ${JSON.stringify(error)}`));
+      .catch(error => console.debug(`Request for ${url} failed with error ${error}`));
+  }
+
+  setUrl(url: string) {
+    this.currentUrl = url;
   }
 }
 
@@ -194,7 +203,7 @@ export class ModelType {
   }
 
 
-  addSubtype(type: ModelType) {
+  addSubtype(type: ModelType) {//TODO: create UI allowing the user to set this
     this.subtypes.push(type);
   }
 }

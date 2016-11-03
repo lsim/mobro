@@ -3,6 +3,9 @@
 let express = require('express');
 let app = express();
 let router = require('./api/router');
+let bodyParser = require('body-parser');
+
+app.use(bodyParser.json());
 
 router(app);
 

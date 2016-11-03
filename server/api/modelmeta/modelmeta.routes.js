@@ -4,6 +4,6 @@ let modelMetaLogic = require('./modelmeta.logic');
 
 module.exports = (api) => {
 
-  api.get('/all', modelMetaLogic.modelMetaJson);
+  api.post('/all', modelMetaLogic.modelMetaJson);
 
 };
