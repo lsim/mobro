@@ -45,6 +45,10 @@ export class ProjectConfig extends SeedConfig {
     });
 
     this.PLUGIN_CONFIGS['browser-sync'].middleware.push(proxyMiddleware);
+
   }
 
+  POSTCSS_INLINE_SVG_CONF: any = {
+    path: this.ASSETS_SRC
+  };
 }
