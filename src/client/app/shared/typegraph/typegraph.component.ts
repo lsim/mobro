@@ -1,17 +1,13 @@
-import {Component,Input,Output,EventEmitter,OnChanges,SimpleChange} from '@angular/core';
-//import {CORE_DIRECTIVES} from 'angular2/common';
-import {Renderer, Node, Edge, ForceDirectedLayout, Graph, Vector, BoundingBox} from './springy';
-import {ModelType} from '../index';
-import {DraggableDirective} from '../draggable/draggable.directive';
-//import * as _ from 'lodash';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChange, AfterViewInit } from '@angular/core';
+import { Renderer, Node, Edge, ForceDirectedLayout, Graph, Vector, BoundingBox } from './springy';
+import { ModelType } from '../index';
 
 @Component({
-  selector: 'typegraph',
+  selector: 'mb-typegraph',
   templateUrl: 'app/shared/typegraph/typegraph.component.html',
   styleUrls: ['app/shared/typegraph/typegraph.component.css']
-  //directives: [CORE_DIRECTIVES,DraggableDirective]
 })
-export class TypeGraphComponent implements OnChanges {
+export class TypeGraphComponent implements OnChanges, AfterViewInit {
 
   renderer: Renderer;
   graph: Graph;

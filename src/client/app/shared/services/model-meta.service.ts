@@ -1,5 +1,5 @@
-import {Injectable} from '@angular/core';
-import {Http, Headers, RequestOptions} from '@angular/http';
+import { Injectable } from '@angular/core';
+import { Http, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/Rx';
 import * as _ from 'lodash';
 
@@ -54,6 +54,10 @@ export class ModelMetaService {
     });
   }
 
+  setUrl(url: string) {
+    this.currentUrl = url;
+  }
+
   private sendFapiRequest(endpoint: string, ...args: string[]) {
     let argPart = args.length > 0 ? '/' + args.join('/') : '';
     let url = `/api/${endpoint}${argPart}`;
@@ -65,10 +69,6 @@ export class ModelMetaService {
       .map((x: any) => x.json())
       .toPromise()
       .catch(error => console.debug(`Request for ${url} failed with error ${error}`));
-  }
-
-  setUrl(url: string) {
-    this.currentUrl = url;
   }
 }
 

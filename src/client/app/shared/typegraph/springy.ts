@@ -332,27 +332,27 @@ export class ForceDirectedLayout {
     if (!(edge.id in this.edgeSprings)) {
       let length = (edge.data.length !== undefined) ? edge.data.length : 1.0;
 
-      let existingSpring: Spring = undefined;
+      let existingSpring: Spring;
 
       let from = this.graph.getEdges(edge.source, edge.target);
       from.forEach(function(e) {
-        if (existingSpring === undefined && e.id in this.edgeSprings) {
+        if (!existingSpring && e.id in this.edgeSprings) {
           existingSpring = this.edgeSprings[e.id];
         }
       }, this);
 
-      if (existingSpring !== undefined) {
+      if (existingSpring) {
         return new Spring(existingSpring.point1, existingSpring.point2, 0.0, 0.0);
       }
 
-      //let to = this.graph.getEdges(edge.target, edge.source);
-      from.forEach(function(e){
-        if (existingSpring === undefined && e.id in this.edgeSprings) {
+      let to = this.graph.getEdges(edge.target, edge.source);
+      to.forEach(function(e){
+        if (!existingSpring && e.id in this.edgeSprings) {
           existingSpring = this.edgeSprings[e.id];
         }
       }, this);
 
-      if (existingSpring !== undefined) {
+      if (existingSpring) {
         return new Spring(existingSpring.point2, existingSpring.point1, 0.0, 0.0);
       }
 

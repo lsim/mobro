@@ -1,12 +1,8 @@
-import {Component,Input,Output,EventEmitter} from '@angular/core';
-//import {CORE_DIRECTIVES} from 'angular2/common';
-import {ModelType} from '../../shared/index';
-import {MapiEntityPropertiesComponent} from './mapientity.properties.component';
-//import * as _ from 'lodash';
-
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { ModelType } from '../../shared/index';
 
 @Component({
-  selector: 'mapientity',
+  selector: 'mb-mapientity',
   templateUrl: 'app/shared/mapientity/mapientity.component.html',
   styleUrls: ['app/shared/mapientity/mapientity.component.css']
   //directives: [MapiEntityPropertiesComponent]

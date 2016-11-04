@@ -1,11 +1,8 @@
-import {Component,Input,Output,EventEmitter} from '@angular/core';
-//import {NgSwitchCase,NgSwitch} from '@angular/common';
-import {ModelType} from '../../shared/services/model-meta.service';
-//import * as _ from 'lodash';
-
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { ModelType } from '../../shared/services/model-meta.service';
 
 @Component({
-  selector: 'mapientityproperties',
+  selector: 'mb-mapientity-properties',
   templateUrl: 'app/shared/mapientity/mapientity.properties.component.html',
   styleUrls: ['app/shared/mapientity/mapientity.properties.component.css']
 })

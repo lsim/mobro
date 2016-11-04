@@ -1,8 +1,8 @@
-import {HTTP_PROVIDERS,XHRBackend,ResponseOptions,Response} from 'angular2/http';
-import {provide} from 'angular2/core';
-import {beforeEachProviders,inject,it} from 'angular2/testing';
-import {MockBackend,MockConnection} from 'angular2/http/testing';
-import {ModelMetaService} from './model-meta.service';
+import { HTTP_PROVIDERS, XHRBackend, ResponseOptions, Response } from '@angular/http';
+import { provide } from '@angular/core';
+import { beforeEachProviders,inject,it } from '@angular/testing';
+import { MockBackend,MockConnection } from '@angular/http/testing';
+import { ModelMetaService } from './model-meta.service';
 
 export function main() {
   describe('ModelMeta Service', () => {

@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { routes } from './app.routes';
 
 import { SharedModule } from './shared/shared.module';
-import { LookupGraphModule } from './lookupgraph/lookupgraph.module'
+import { LookupGraphModule } from './lookupgraph/lookupgraph.module';
 
 @NgModule({
   imports: [BrowserModule, HttpModule, SharedModule, LookupGraphModule, RouterModule.forRoot(routes), SharedModule.forRoot()],

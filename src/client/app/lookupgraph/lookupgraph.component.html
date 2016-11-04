@@ -1,40 +1,28 @@
 <form (submit)="lookupEntity()"
       class="lookupgraph__query-form">
-  <autocomplete [(value)]="typeSearchString"
+  <mb-autocomplete [(value)]="typeSearchString"
                 [options]="allTypes"
                 placeholder="<type to look up> (try 'BPLA' or 'ExMPLA')"
-                class="lookupgraph__query-form__autocomplete"></autocomplete>
-  <autocomplete [(value)]="propSearchString"
+                class="lookupgraph__query-form__autocomplete"></mb-autocomplete>
+  <mb-autocomplete [(value)]="propSearchString"
                 [options]="allProperties"
                 placeholder="<property to look for> (try '.Encounter or 'P.E')"
-                class="lookupgraph__query-form__autocomplete"></autocomplete>
+                class="lookupgraph__query-form__autocomplete"></mb-autocomplete>
   <button type="submit">Look up</button>
   <button type="button" (click)="clearSelection()" class="lookupgraph__query-form__clear-button">Clear</button>
-  <togglebutton
-    class="lookupgraph__query-form__aggregation-toggle"
-    #aggregations
-    [checkedState]="typegraph.showAggregations"
-    textOn="Aggregations" textOff="No aggregations"></togglebutton>
-  <togglebutton
-    class="lookupgraph__query-form__inheritance-toggle"
-    #inheritance
-    [checkedState]="typegraph.showInheritance"
-    textOn="Inheritance" textOff="No inheritance"></togglebutton>
 </form>
 <div class="lookupgraph__entity-canvas">
-  <typegraph
+  <mb-typegraph
     #typegraph
     class="lookupgraph__entity-canvas__typegraph"
     [modelTypes]="modelTypes"
-    [showAggregations]="aggregations.checkedState"
-    [showInheritance]="inheritance.checkedState"
     (nodeClicked)="modelTypeClicked($event)"
-  ></typegraph>
+  ></mb-typegraph>
   <div class="lookupgraph__entity-canvas__model-types">
-    <mapientity *ngFor="let modelType of modelTypes, let idx = index"
+    <mb-mapientity *ngFor="let modelType of modelTypes, let idx = index"
                 [modelType]="modelType"
                 (remove)="toggleTypeInCollection(modelType)"
                 (navigate)="toggleTypeInCollection($event)"
-                class="lookupgraph__entity-canvas__model-type"></mapientity>
+                class="lookupgraph__entity-canvas__model-type"></mb-mapientity>
   </div>
 </div>

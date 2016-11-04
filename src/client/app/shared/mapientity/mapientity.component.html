@@ -18,14 +18,14 @@
     </span>
   </div>
   <div class="entity_details_properties">
-    <mapientityproperties [modelType]="modelType" *ngIf="modelType.properties.length > 0" (navigate)="navigateTo($event)"></mapientityproperties>
+    <mb-mapientity-properties [modelType]="modelType" *ngIf="modelType.properties.length > 0" (navigate)="navigateTo($event)"></mb-mapientity-properties>
   </div>
   <div *ngFor="let ancestorType of modelType.ancestors" class="entity_details_properties">
     <div *ngIf="ancestorType.properties.length > 0">
       <div class="entity_property_header">
         Inherited from <span class="entity_property_header_link" (click)="navigateTo(ancestorType)">{{ancestorType.name}}</span>:
       </div>
-      <mapientityproperties [modelType]="ancestorType" (navigate)="navigateTo($event)"></mapientityproperties>
+      <mb-mapientity-properties [modelType]="ancestorType" (navigate)="navigateTo($event)"></mb-mapientity-properties>
     </div>
   </div>
   <div class="entity_details_inbound_refs">

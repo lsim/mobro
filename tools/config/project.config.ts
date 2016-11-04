@@ -10,6 +10,8 @@ export class ProjectConfig extends SeedConfig {
 
   PROJECT_TASKS_DIR = join(process.cwd(), this.TOOLS_DIR, 'tasks', 'project');
 
+  POSTCSS_INLINE_SVG_CONF: any = { path: this.ASSETS_SRC };
+
   constructor() {
     super();
     this.APP_TITLE = 'MoBro';
@@ -48,7 +50,4 @@ export class ProjectConfig extends SeedConfig {
 
   }
 
-  POSTCSS_INLINE_SVG_CONF: any = {
-    path: this.ASSETS_SRC
-  };
 }

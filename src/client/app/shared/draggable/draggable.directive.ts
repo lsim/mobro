@@ -1,5 +1,5 @@
-import {Directive, EventEmitter, HostListener, Output} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
+import { Directive, EventEmitter, HostListener, Output } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/Rx';// To make .map available on Observables
 
 @Directive({

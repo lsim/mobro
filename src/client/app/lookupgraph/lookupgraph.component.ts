@@ -1,12 +1,6 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 
-import {
-  ModelMetaService,
-  AutocompleteComponent,
-  MapiEntityComponent,
-  ModelType,
-  TypeGraphComponent,
-  ToggleButtonComponent} from '../shared/index';
+import { ModelMetaService, ModelType } from '../shared/index';
 import * as _ from 'lodash';
 
 

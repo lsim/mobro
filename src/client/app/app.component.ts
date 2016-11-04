@@ -7,10 +7,9 @@ import './operators';
  * applications routes, configuring the paths for the lazy loaded components (HomeComponent, AboutComponent).
  */
 @Component({
-  moduleId: module.id,
   selector: 'mb-app',
-  templateUrl: 'app.component.html',
-  styleUrls: ['app.component.css']
+  templateUrl: 'app/app.component.html',
+  styleUrls: ['app/app.component.css']
 })
 
 export class AppComponent {

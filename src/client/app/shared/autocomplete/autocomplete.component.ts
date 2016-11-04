@@ -1,8 +1,7 @@
-import {Component,Input,Output,EventEmitter} from '@angular/core';
-//import {CORE_DIRECTIVES,FORM_DIRECTIVES} from '@angular/common';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
-  selector: 'autocomplete',
+  selector: 'mb-autocomplete',
   templateUrl: 'app/shared/autocomplete/autocomplete.component.html',
   styleUrls: ['app/shared/autocomplete/autocomplete.component.css']
 })
