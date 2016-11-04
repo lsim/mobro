@@ -16,5 +16,6 @@ module.exports = (app) => {
 
   //Forward other requests to static content
   app.use(express.static(config.STATIC_CONTENT_ROOT));
+  app.use('/node_modules', express.static(config.NODE_MODULES_ROOT));
 
 };
