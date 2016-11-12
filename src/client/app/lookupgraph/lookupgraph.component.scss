@@ -1,6 +1,7 @@
 @import '../../css/material-palette';
 
 :host {
+  flex: 1 1 auto; //Note: this doesn't belong here, but for some reason styling won't apply to siblings of router output
   display: flex;
   flex-direction: column;
 }

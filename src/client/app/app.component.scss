@@ -5,7 +5,7 @@
   align-items: stretch;
   height: 100vh;
 
-  router-outlet + * {
+  router-outlet + * { // This doesn't work - don't know why. Workaround is to style possible router outputs individually
     flex: 1 1 auto;
   }
 }
