@@ -2,12 +2,46 @@
   background-color: #106cc8;
   color: rgba(255, 255, 255, 0.87);
   padding: 0 16px;
+
+  flex: 0 0 50px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .current-server  {
+    display: flex;
+    flex: 1 0 auto;
+    align-items: center;
+    //justify-content: space-around;
+    h1 {
+      display: flex;
+      font-size: 20px;
+      font-weight: normal;
+      letter-spacing: 0.1px;
+      line-height: 48px;
+      margin-right: 10px;
+    }
+    &__details {
+      position: absolute;
+      top: 36px;
+      font-style: italic;
+      font-size: 70%;
+    }
+  }
+
+  .server-selector {
+    display: flex;
+    flex: 0 0 300px;
+
+    &__input {
+      flex: 1 1 auto;
+    }
+
+    &__button {
+      flex: 0 0 20px;
+    }
+  }
 }
 
-h1 {
-  display: inline;
-  font-size: 20px;
-  font-weight: normal;
-  letter-spacing: 0.1px;
-  line-height: 48px;
-}
+

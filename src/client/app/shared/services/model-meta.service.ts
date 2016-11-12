@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/Rx';
 import * as _ from 'lodash';
@@ -7,22 +7,11 @@ import * as _ from 'lodash';
 export class ModelMetaService {
 
   allTypes: Array<IRawModelType>;
-  currentUrl = 'http://cis47:8081/fapi.model.meta/all'; // TODO: default to something else
+  currentModelMetaHost: string;
+  hostChanged = new EventEmitter<string>();
+  detailsChanged = new EventEmitter<ModelDetails>();
 
-  constructor(private http: Http) {
-  }
-
-  getAllTypes() {
-    return this.sendFapiRequest('browser');
-  }
-
-  getSubtypesOfType(type: string) : Promise<string[]> {
-    return this.sendFapiRequest('subtypes', type);
-  }
-
-  getEntityInfo(type: string) {
-    return this.sendFapiRequest('browser', type);
-  }
+  constructor(private http: Http) {}
 
   buildTypeHierarchy(allTypes: Array<IRawModelType>) {
     let modelTypeMap: {[key: string]: ModelType} = {};
@@ -46,16 +35,26 @@ export class ModelMetaService {
         resolve(typeHierarchy);
       });
     }
-    return this.sendFapiRequest('all')
-      .then((allTypesObj) => _.values(allTypesObj))
-      .then((allTypes: Array<IRawModelType>) => {
-        this.allTypes = allTypes;
-        return this.buildTypeHierarchy(allTypes);
-    });
+    return this.sendFapiRequest('all', this.currentModelMetaHost)
+      .then((responseObj: any) => {
+        this.handleNewModelDetails(responseObj.system);
+        let allTypesObj = responseObj.modelMeta;
+        this.allTypes = <Array<IRawModelType>>_.values(allTypesObj);
+        return this.buildTypeHierarchy(this.allTypes);
+      });
   }
 
-  setUrl(url: string) {
-    this.currentUrl = url;
+  handleNewModelDetails(modelDetails: ModelDetails) {
+    modelDetails.host = this.currentModelMetaHost;
+    this.detailsChanged.emit(modelDetails);
+  }
+
+  setModelMetaHost(modelMetaHost: string) {
+    if(modelMetaHost !== this.currentModelMetaHost) {
+      this.allTypes = null;
+      this.currentModelMetaHost = modelMetaHost;
+      this.hostChanged.emit(modelMetaHost);
+    }
   }
 
   private sendFapiRequest(endpoint: string, ...args: string[]) {
@@ -65,7 +64,7 @@ export class ModelMetaService {
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });
 
-    return this.http.post(url, {target: this.currentUrl}, options)
+    return this.http.get(url, options)
       .map((x: any) => x.json())
       .toPromise()
       .catch(error => console.debug(`Request for ${url} failed with error ${error}`));
@@ -210,4 +209,11 @@ export class ModelType {
 
 export class InboundReference {
   constructor(public propName: string, public ownerType: ModelType) {}
+}
+
+export interface ModelDetails {
+  host: string;
+  cis: string;
+  mapi: string;
+  database: string;
 }

@@ -10,7 +10,8 @@ import {
   MapiEntityComponent,
   MapiEntityPropertiesComponent,
   ToggleButtonComponent,
-  TypeGraphComponent } from './index';
+  TypeGraphComponent,
+  LogAreaComponent } from './index';
 
 /**
  * Do not specify providers for modules that might be imported by a lazy loaded module.
@@ -25,7 +26,8 @@ import {
     MapiEntityComponent,
     MapiEntityPropertiesComponent,
     ToggleButtonComponent,
-    TypeGraphComponent
+    TypeGraphComponent,
+    LogAreaComponent
   ],
   exports: [
     ToolbarComponent,
@@ -35,6 +37,7 @@ import {
     MapiEntityPropertiesComponent,
     ToggleButtonComponent,
     TypeGraphComponent,
+    LogAreaComponent,
     CommonModule, FormsModule, RouterModule]
 })
 export class SharedModule {

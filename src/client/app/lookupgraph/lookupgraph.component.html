@@ -12,6 +12,7 @@
   <button type="button" (click)="clearSelection()" class="lookupgraph__query-form__clear-button">Clear</button>
 </form>
 <div class="lookupgraph__entity-canvas">
+  <mb-logarea [numLines]="5" class="lookupgraph__entity-canvas__logarea"></mb-logarea>
   <mb-typegraph
     #typegraph
     class="lookupgraph__entity-canvas__typegraph"

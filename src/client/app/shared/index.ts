@@ -5,6 +5,9 @@ export * from './toolbar/index';
 export * from './config/env.config';
 
 export * from './services/model-meta.service';
+export * from './services/localstorage.service';
+export * from './services/log.service';
+export * from './logarea/logarea.component';
 export * from './autocomplete/autocomplete.component';
 export * from './mapientity/mapientity.component';
 export * from './mapientity/mapientity.properties.component';

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Config } from './shared/index';
 import './operators';
+import { ModelMetaService, LogService } from "./shared/index";
 
 /**
  * This class represents the main application component. Within the @Routes annotation is the configuration of the
@@ -8,6 +9,7 @@ import './operators';
  */
 @Component({
   selector: 'mb-app',
+  providers: [ModelMetaService, LogService], //Singleton services provided at this level
   templateUrl: 'app/app.component.html',
   styleUrls: ['app/app.component.css']
 })

@@ -1,0 +1,16 @@
+@import '../../../css/material-palette';
+
+:host {
+  padding: 5px;
+
+  .logentry {
+    &__error {
+      color: palette(Red)
+    }
+
+    &__message {
+      color: palette(Blue)
+    }
+  }
+
+}

@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
-
-import { ModelMetaService, ModelType } from '../shared/index';
+import { ModelMetaService, ModelType, LogService } from '../shared/index';
 import * as _ from 'lodash';
 
 
 @Component({
   selector: 'mb-lookupgraph',
-  providers: [ModelMetaService],
   templateUrl: 'app/lookupgraph/lookupgraph.component.html',
   styleUrls: ['app/lookupgraph/lookupgraph.component.css']
 })
@@ -19,11 +17,22 @@ export class LookupGraphComponent {
   propSearchString = '';
   modelTypes: Array<ModelType> = [];
 
-  constructor(modelMetaService: ModelMetaService) {
-    modelMetaService.getFullTypeHierarchy().then((fullTypeHierarchy) => {
+  constructor(public modelMetaService: ModelMetaService, public logService: LogService) {
+    modelMetaService.hostChanged.subscribe((newHost: string) => this.initFromSource(newHost));
+    this.initFromSource(modelMetaService.currentModelMetaHost);
+  }
+
+  initFromSource(host: string) {
+    let selectedTypes = this.modelTypes.map((modelType) => modelType.name);
+    this.clearSelection();
+    this.modelMetaService.getFullTypeHierarchy().then((fullTypeHierarchy) => {
       this.typeMap = fullTypeHierarchy;
       this.allTypes = _.keys(fullTypeHierarchy);
       this.allProperties = this.getAllProperties(fullTypeHierarchy);
+      this.logService.logMsg(`Loaded ${this.allTypes.length} entities and ${this.allProperties.length} properties from ${host}`);
+      selectedTypes.forEach((typeName) => this.addTypeByName(typeName));
+    }).catch((error) => {
+      this.logService.logErr(`Failed loading type information from ${host}`);
     });
   }
 
