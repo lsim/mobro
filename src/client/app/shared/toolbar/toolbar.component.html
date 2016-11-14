@@ -1,11 +1,11 @@
 <span class="current-server">
   <h1>MoBro</h1>
-  <span *ngIf="modelDetails" class="current-server__details">{{modelDetails.host}} - mapi: {{modelDetails.mapi}}</span>
+  <span *ngIf="modelDetails" class="current-server__details">{{modelDetails.host}} - mapi: {{modelDetails.mapi}} - cis: {{modelDetails.cis}}</span>
 </span>
 <form class="server-selector" (submit)="setCurrentCis(input.value)">
   <mb-autocomplete [(value)]="inputContent"
                  [options]="knownHosts"
-                 placeholder="<server to connect to> (eg 'cis47' or 'funklateststandalone')"
+                 placeholder="<server> (eg 'cis47')"
                  class="server-selector__input" #input></mb-autocomplete>
   <button type="submit" class="server-selector__button">Go!</button>
 </form>
