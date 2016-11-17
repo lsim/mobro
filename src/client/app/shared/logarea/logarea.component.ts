@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { LogService, LogEntry } from "../services/log.service";
+import { LogService, LogEntry } from '../services/log.service';
 
 @Component({
   selector: 'mb-logarea',

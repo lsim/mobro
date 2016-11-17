@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { ModelMetaService, ModelDetails } from "../services/model-meta.service";
-import { LocalStorage } from "../services/localstorage.service";
+import { ModelMetaService, ModelDetails } from '../services/model-meta.service';
+import { LocalStorage } from '../services/localstorage.service';
 
 @Component({
   selector: 'mb-toolbar',
@@ -9,8 +9,8 @@ import { LocalStorage } from "../services/localstorage.service";
   styleUrls: ['app/shared/toolbar/toolbar.component.css']
 })
 export class ToolbarComponent {
-  inputContent: string = "";
-  selectedHost: string = "";
+  inputContent: string = '';
+  selectedHost: string = '';
   knownHosts: string[] = [];
   modelDetails: ModelDetails = null;
 
@@ -46,6 +46,6 @@ export class ToolbarComponent {
 
   setCurrentCis(metaModelHostName: string) {
     this.modelMetaService.setModelMetaHost(metaModelHostName);
-    this.inputContent = "";
+    this.inputContent = '';
   }
 }

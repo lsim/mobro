@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Config } from './shared/index';
 import './operators';
-import { ModelMetaService, LogService } from "./shared/index";
+import { ModelMetaService, LogService } from './shared/index';
 
 /**
  * This class represents the main application component. Within the @Routes annotation is the configuration of the
