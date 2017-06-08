@@ -157,7 +157,7 @@ export class ModelType {
     }
     this.properties = _.values(this.rawModelEntity.fields)
       .map((prop: any) => {
-        if(typeof prop.attributes === 'object') { // In berlin and older versions, attributes is an object
+        if(prop.attributes && !_.isArray(prop.attributes)) { // In berlin and older versions, attributes is an object
           let attributes: Array<String> = [];
           for(let fieldName in prop.attributes) {
             if(fieldName === 'nullable' && prop.attributes[fieldName] === 'true') {
