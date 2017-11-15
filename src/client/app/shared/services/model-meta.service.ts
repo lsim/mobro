@@ -174,7 +174,7 @@ export class ModelType {
         return prop;
       })
       .map((rawProp: IRawModelProperty) => new ModelProperty(rawProp, typeLookup))
-      .sort((p1, p2) => p1.name.localeCompare(p2.name));
+      .sort((p1: any, p2: any) => p1.name.localeCompare(p2.name));
   }
 
   createAndReturnAncestorList(): Array<ModelType> {
