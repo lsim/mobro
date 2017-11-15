@@ -56,7 +56,7 @@ $propertyOddColor: palette(White, Secondary Text);
   }
 
   .entity_details {
-    overflow-y: scroll;
+    overflow-y: auto;
     padding: 5px;
 
     .entity_details_inheritors {
