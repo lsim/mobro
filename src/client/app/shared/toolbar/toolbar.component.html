@@ -5,7 +5,7 @@
 <form class="server-selector" (submit)="setCurrentCis(input.value)">
   <mb-autocomplete [(value)]="inputContent"
                  [options]="knownHosts"
-                 placeholder="<server> (eg 'cis47')"
+                 placeholder="<server> (eg 'funklateststandalone')"
                  class="server-selector__input" #input></mb-autocomplete>
   <button type="submit" class="server-selector__button">Go!</button>
 </form>
